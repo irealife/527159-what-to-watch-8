@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть»
 
 * Студент: [Инна Хацкевич](https://up.htmlacademy.ru/react/8/user/527159).
-* Наставник: `Неизвестно`.
+* Наставник: [Rail Sakhaviev](https://htmlacademy.ru/profile/id1331891).
 
 ---
 
