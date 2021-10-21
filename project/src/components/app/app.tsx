@@ -8,14 +8,17 @@ import PlayerScreen from '../player-screen/player-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
 import NotFoundScreen from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
+import {DataFilm} from '../../types/film';
 
 type AppScreenProps = {
   title: string;
   genre: string;
   releaseDate: number;
+  films: DataFilm[];
 }
 
-function App({title, genre, releaseDate}:AppScreenProps): JSX.Element {
+function App({title, genre, releaseDate, films}:AppScreenProps): JSX.Element {
+  const firstFilm = films.slice();
   return (
     <BrowserRouter>
       <Switch>
@@ -24,6 +27,7 @@ function App({title, genre, releaseDate}:AppScreenProps): JSX.Element {
             title={title}
             genre={genre}
             releaseDate={releaseDate}
+            films={firstFilm}
           />
         </Route>
         <Route exact path={AppRoute.SignIn}>
@@ -32,7 +36,9 @@ function App({title, genre, releaseDate}:AppScreenProps): JSX.Element {
         <PrivateRoute exact path={AppRoute.MyList} render={() => <MyListScreen />} authorizationStatus={AuthorizationStatus.NoAuth}>
         </PrivateRoute>
         <Route exact path={AppRoute.Film}>
-          <FilmsScreen />
+          <FilmsScreen
+            films={firstFilm}
+          />
         </Route>
         <Route exact path={AppRoute.AddReview}>
           <AddReviewScreen />
