@@ -1,12 +1,12 @@
-export type DataUser = {
+export type User = {
   id: number;
   name: string;
 }
 
-export type DataReview = {
+export type Review = {
   id: number;
-  user: DataUser;
+  user: User;
   rating: number;
   comment: string;
-  date: Date;
+  date: string;
 }

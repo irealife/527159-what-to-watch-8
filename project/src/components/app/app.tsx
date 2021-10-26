@@ -1,3 +1,4 @@
+import React from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import MainScreen from '../main-screen/main-screen';
@@ -8,26 +9,24 @@ import PlayerScreen from '../player-screen/player-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
 import NotFoundScreen from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import {DataFilm} from '../../types/film';
+import FilmReviewScreen from '../film-review-screen/film-review-screen';
+import {Film} from '../../types/film';
+import {Review} from '../../types/review';
 
 type AppScreenProps = {
-  title: string;
-  genre: string;
-  releaseDate: number;
-  films: DataFilm[];
+  films: Film[];
+  reviews: Review[];
 }
 
-function App({title, genre, releaseDate, films}:AppScreenProps): JSX.Element {
-  const firstFilm = films.slice();
+function App({films, reviews}:AppScreenProps): JSX.Element {
+  const [firstFilm] = films;
+  const [firstReview] = reviews;
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <MainScreen
-            title={title}
-            genre={genre}
-            releaseDate={releaseDate}
-            films={firstFilm}
+            film={firstFilm}
           />
         </Route>
         <Route exact path={AppRoute.SignIn}>
@@ -37,14 +36,27 @@ function App({title, genre, releaseDate, films}:AppScreenProps): JSX.Element {
         </PrivateRoute>
         <Route exact path={AppRoute.Film}>
           <FilmsScreen
-            films={firstFilm}
+            film={firstFilm}
           />
         </Route>
         <Route exact path={AppRoute.AddReview}>
-          <AddReviewScreen />
+          <AddReviewScreen
+            film={firstFilm}
+            review={firstReview}
+            reviews={reviews}
+            onReview={() => {
+              throw new Error('Function \'onReview\' isn\'t implemented.');
+            }}
+            onChange={() => {
+              throw new Error('Function \'onChange\' isn\'t implemented.');
+            }}
+          />
         </Route>
         <Route exact path={AppRoute.Player}>
           <PlayerScreen />
+        </Route>
+        <Route exact path={AppRoute.devReview}>
+          <FilmReviewScreen film={firstFilm} />
         </Route>
         <Route>
           <NotFoundScreen />

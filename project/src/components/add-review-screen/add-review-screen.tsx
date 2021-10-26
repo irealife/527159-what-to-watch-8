@@ -1,26 +1,44 @@
-function AddReviewScreen(): JSX.Element {
+import React, {useState, ChangeEvent, FormEvent} from 'react';
+import Logo from '../logo/logo';
+import {Film} from '../../types/film';
+import {Review} from '../../types/review';
+import {Link} from 'react-router-dom';
+
+type AddReviewScreenProps = {
+  film: Film;
+  review: Review;
+  reviews: Review[];
+  onReview: (review: Review) => void;
+  onChange: (starChange: any) => void;
+}
+
+
+function AddReviewScreen({film, review, reviews, onReview, onChange}: AddReviewScreenProps): JSX.Element {
+  const [userReviews, setUserReviews] = useState([false, false, false, false, false, false, false, false, false, false]);
+  const handleChangeStar = () => {
+    onChange=({target}:ChangeEvent<HTMLInputElement>) => {
+      const value = target.checked;
+      setUserReviews([...userReviews.slice(0, review.rating), value]);
+    };
+  };
   return (
-    <section className="film-card film-card--full">
+    <section key={film.id} className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={film.backgroundImg} alt={film.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header">
           <div className="logo">
-            <a href="main.html" className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            <Logo />
           </div>
 
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">The Grand Budapest Hotel</a>
+                <a href="film-page.html" className="breadcrumbs__link">{film.name}</a>
               </li>
               <li className="breadcrumbs__item">
                 <a href="/" className="breadcrumbs__link">Add review</a>
@@ -31,53 +49,37 @@ function AddReviewScreen(): JSX.Element {
           <ul className="user-block">
             <li className="user-block__item">
               <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
+                <Link to="/login">
+                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
+                </Link>
               </div>
             </li>
             <li className="user-block__item">
-              <a href="/" className="user-block__link">Sign out</a>
+              <Link to="/login" className="user-block__link">Sign out</Link>
             </li>
           </ul>
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+          <img src={film.posterImg} alt={film.name} width="218" height="327"/>
         </div>
       </div>
 
       <div className="add-review">
-        <form action="#" className="add-review__form">
+        <form action="#" className="add-review__form" onSubmit={(evt: FormEvent<HTMLFormElement>) => {
+          evt.preventDefault();
+          onReview(review);
+        }}
+        >
           <div className="rating">
             <div className="rating__stars">
-              <input className="rating__input" id="star-10" type="radio" name="rating" value="10"/>
-              <label className="rating__label" htmlFor="star-10">Rating 10</label>
 
-              <input className="rating__input" id="star-9" type="radio" name="rating" value="9"/>
-              <label className="rating__label" htmlFor="star-9">Rating 9</label>
-
-              <input className="rating__input" id="star-8" type="radio" name="rating" value="8" checked/>
-              <label className="rating__label" htmlFor="star-8">Rating 8</label>
-
-              <input className="rating__input" id="star-7" type="radio" name="rating" value="7"/>
-              <label className="rating__label" htmlFor="star-7">Rating 7</label>
-
-              <input className="rating__input" id="star-6" type="radio" name="rating" value="6"/>
-              <label className="rating__label" htmlFor="star-6">Rating 6</label>
-
-              <input className="rating__input" id="star-5" type="radio" name="rating" value="5"/>
-              <label className="rating__label" htmlFor="star-5">Rating 5</label>
-
-              <input className="rating__input" id="star-4" type="radio" name="rating" value="4"/>
-              <label className="rating__label" htmlFor="star-4">Rating 4</label>
-
-              <input className="rating__input" id="star-3" type="radio" name="rating" value="3"/>
-              <label className="rating__label" htmlFor="star-3">Rating 3</label>
-
-              <input className="rating__input" id="star-2" type="radio" name="rating" value="2"/>
-              <label className="rating__label" htmlFor="star-2">Rating 2</label>
-
-              <input className="rating__input" id="star-1" type="radio" name="rating" value="1"/>
-              <label className="rating__label" htmlFor="star-1">Rating 1</label>
+              {reviews.map(() => (
+                <>
+                  <input className="rating__input" id={`star-${review.rating}`} type="radio" name="rating" value={`star-${review.rating}`} checked={userReviews[review.user.id]} onChange={handleChangeStar}/>
+                  <label className="rating__label" htmlFor={`star-${review.rating}`}>Rating {review.rating}</label>
+                </>
+              ))}
             </div>
           </div>
 

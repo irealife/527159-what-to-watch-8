@@ -1,20 +1,21 @@
 import Logo from '../logo/logo';
-import {DataFilm} from '../../types/film';
+import {FilmList} from '../film-list/film-list';
+import {Film} from '../../types/film';
+import {films} from '../../mocks/films';
+import {Footer} from '../footer/footer';
+import {Link} from 'react-router-dom';
+import React from 'react';
 
 type MainScreenProps = {
-  title: string;
-  genre: string;
-  releaseDate: number;
-  films: DataFilm[];
+  film: Film;
 }
 
-function MainScreen(props: MainScreenProps): JSX.Element {
-  const {films, title,genre, releaseDate} = props;
+function MainScreen({film}: MainScreenProps): JSX.Element {
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={film.backgroundImg} alt={film.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -31,7 +32,7 @@ function MainScreen(props: MainScreenProps): JSX.Element {
               </div>
             </li>
             <li className="user-block__item">
-              <a href="/" className="user-block__link">Sign out</a>
+              <Link to="/login" className="user-block__link">Sign out</Link>
             </li>
           </ul>
         </header>
@@ -39,14 +40,14 @@ function MainScreen(props: MainScreenProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+              <img src={film.posterImg} alt={film.name} width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{title}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{releaseDate}</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -104,23 +105,7 @@ function MainScreen(props: MainScreenProps): JSX.Element {
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-
-            {films.map((film, id) => {
-              const keyValue = `${id}`;
-              return (
-                <article key={keyValue} className="small-film-card catalog__films-card">
-                  <div className="small-film-card__image">
-                    <img src={film.posterImg} alt={film.name} width="280" height="175"/>
-                  </div>
-                  <h3 className="small-film-card__title">
-                    <a className="small-film-card__link" href="film-page.html">{film.name}</a>
-                  </h3>
-                </article>
-              );
-            })}
-
-          </div>
+          <FilmList films={films} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
@@ -128,17 +113,7 @@ function MainScreen(props: MainScreenProps): JSX.Element {
         </section>
 
         <footer className="page-footer">
-          <div className="logo">
-            <a href="/" className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
+          <Footer />
         </footer>
       </div>
     </>

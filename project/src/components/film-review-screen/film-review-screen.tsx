@@ -1,17 +1,19 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
-import {FilmList} from '../film-list/film-list';
 import {Film} from '../../types/film';
+import {FilmList} from '../film-list/film-list';
 import {films} from '../../mocks/films';
+import {UserReviewList} from '../user-review-list/user-review-list';
+import {reviews} from '../../mocks/reviews';
 import {Footer} from '../footer/footer';
+import {Link} from 'react-router-dom';
 
 
-type FilmsScreenProps = {
+type FilmReviewScreenProps = {
   film: Film;
 }
 
-function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
+function FilmReviewScreen({film}: FilmReviewScreenProps): JSX.Element {
   return (
     <>
       <section key={film.id} className="film-card film-card--full">
@@ -30,13 +32,11 @@ function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
             <ul className="user-block">
               <li className="user-block__item">
                 <div className="user-block__avatar">
-                  <Link to="/login">
-                    <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-                  </Link>
+                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
                 </div>
               </li>
               <li className="user-block__item">
-                <Link to="/login" className="user-block__link">Sign out</Link>
+                <a className="user-block__link">Sign out</a>
               </li>
             </ul>
           </header>
@@ -77,30 +77,22 @@ function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
+                  <li className="film-nav__item">
+                    <a href="#" className="film-nav__link">Overview</a>
+                  </li>
+                  <li className="film-nav__item">
+                    <a href="#" className="film-nav__link">Details</a>
+                  </li>
                   <li className="film-nav__item film-nav__item--active">
-                    <a href="/" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Reviews</a>
+                    <a href="#" className="film-nav__link">Reviews</a>
                   </li>
                 </ul>
               </nav>
 
-              <div className="film-rating">
-                <div className="film-rating__score">{film.rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">{film.scoresCount} ratings</span>
-                </p>
-              </div>
+              <div className="film-card__reviews film-card__row">
 
-              <div className="film-card__text">
-                <p>{film.description}</p>
-                <p className="film-card__director"><strong>Director: {film.director}</strong></p>
-                <p className="film-card__starring"><strong>Starring: {film.starring}</strong></p>
+                <UserReviewList reviews={reviews} />
+
               </div>
             </div>
           </div>
@@ -110,8 +102,9 @@ function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmList films={films} />
-
+          <div className="catalog__films-list">
+            <FilmList films={films} />
+          </div>
         </section>
 
         <footer className="page-footer">
@@ -122,4 +115,4 @@ function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
   );
 }
 
-export default FilmsScreen;
+export default FilmReviewScreen;

@@ -1,4 +1,4 @@
-export type DataFilm = {
+export type Film = {
   id: number;
   name: string;
   posterImg: string;

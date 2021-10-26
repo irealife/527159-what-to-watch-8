@@ -1,6 +1,6 @@
-import {DataFilm} from '../types/film';
+import {Film} from '../types/film';
 
-export const films: DataFilm[] = [
+export const films: Film[] = [
   {
     id: 1,
     name: 'The Grand Budapest Hotel',
@@ -14,7 +14,7 @@ export const films: DataFilm[] = [
     rating: 8.9,
     scoresCount: 240,
     director: 'Wes Anderson',
-    starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe'],
+    starring: ['Bill Murray', ' Edward Norton', ' Jude Law', ' Willem Dafoe'],
     runTime: 99,
     genre: 'Comedy',
     released: 2014,
@@ -32,9 +32,9 @@ export const films: DataFilm[] = [
     rating: 9.1,
     scoresCount: 546,
     director: 'Фрэнк Дарабонт',
-    starring: ['Тим Роббинс', 'Морган Фриман', 'Боб Гантон', 'Уильям Сэдлер'],
+    starring: ['Тим Роббинс', ' Морган Фриман', ' Боб Гантон', ' Уильям Сэдлер'],
     runTime: 65,
-    genre: 'Комедия',
+    genre: 'Comedy',
     released: 1994,
     isFavorite: false,
   }, {
@@ -50,9 +50,9 @@ export const films: DataFilm[] = [
     rating: 8.7,
     scoresCount: 455,
     director: 'Леонид Гайдай',
-    starring: ['Александр Демьяненко', 'Юрий Яковлев', 'Леонид Куравлёв', 'Наталья Крачковская'],
+    starring: ['Александр Демьяненко', ' Юрий Яковлев', ' Леонид Куравлёв', ' Наталья Крачковская'],
     runTime: 77,
-    genre: 'Комедия',
+    genre: 'Comedy',
     released: 1973,
     isFavorite: false,
   }, {
@@ -68,9 +68,9 @@ export const films: DataFilm[] = [
     rating: 8.5,
     scoresCount: 365,
     director: 'Гай Ричи',
-    starring: ['Джейсон Флеминг', 'Декстер Флетчер', 'Ник Моран', 'Джейсон Стэйтем'],
+    starring: ['Джейсон Флеминг', ' Декстер Флетчер', ' Ник Моран', ' Джейсон Стэйтем'],
     runTime: 46,
-    genre: 'Боевик',
+    genre: 'Crime',
     released: 1998,
     isFavorite: false,
   }, {
@@ -86,9 +86,9 @@ export const films: DataFilm[] = [
     rating: 8.6,
     scoresCount: 678,
     director: 'Квентин Тарантино',
-    starring: ['Джон Траволта', 'Сэмюэл Л. Джексон', 'Брюс Уиллис', 'Ума Турман'],
+    starring: ['Джон Траволта', ' Сэмюэл Л. Джексон', ' Брюс Уиллис', ' Ума Турман'],
     runTime: 89,
-    genre: 'Драма',
+    genre: 'Drama',
     released: 1994,
     isFavorite: false,
   }, {
@@ -104,9 +104,9 @@ export const films: DataFilm[] = [
     rating: 8.8,
     scoresCount: 988,
     director: 'Оливье Накаш',
-    starring: ['Франсуа Клюзе', 'Омар Си', 'Анн Ле Ни', 'Одри Флеро'],
+    starring: ['Франсуа Клюзе', ' Омар Си', ' Анн Ле Ни', ' Одри Флеро'],
     runTime: 65,
-    genre: 'Драма',
+    genre: 'Drama',
     released: 2011,
     isFavorite: false,
   }, {
@@ -122,9 +122,9 @@ export const films: DataFilm[] = [
     rating: 8.5,
     scoresCount: 386,
     director: 'Гай Ричи',
-    starring: ['Мэттью МакКонахи', 'Чарли Ханнэм', 'Генри Голдинг', 'Хью Грант'],
+    starring: ['Мэттью МакКонахи', ' Чарли Ханнэм', ' Генри Голдинг', ' Хью Грант'],
     runTime: 32,
-    genre: 'Комедия',
+    genre: 'Comedy',
     released: 2019,
     isFavorite: false,
   }, {
@@ -140,9 +140,9 @@ export const films: DataFilm[] = [
     rating: 8.3,
     scoresCount: 869,
     director: 'Владимир Меньшов',
-    starring: ['Александр Михайлов', 'Нина Дорошина', 'Людмила Гурченко', 'Сергей Юрский'],
+    starring: ['Александр Михайлов', ' Нина Дорошина', ' Людмила Гурченко', ' Сергей Юрский'],
     runTime: 87,
-    genre: 'Комедия',
+    genre: 'Comedy',
     released: 1984,
     isFavorite: false,
   },
