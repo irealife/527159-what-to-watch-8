@@ -11,7 +11,7 @@ export function FilmList({films}: FilmListProps): JSX.Element {
   return (
     <div className="catalog__films-list">
       {films.map((film) => (
-        <FilmCard film={film} key={film.id} onMouseEnter={setActiveFilmId}/>
+        <FilmCard film={film} key={film.id} onMouseOver={setActiveFilmId} play={film.id}/>
       ))}
     </div>
   );

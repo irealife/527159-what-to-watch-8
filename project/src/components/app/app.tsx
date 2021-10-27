@@ -11,16 +11,13 @@ import NotFoundScreen from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import FilmReviewScreen from '../film-review-screen/film-review-screen';
 import {Film} from '../../types/film';
-import {Review} from '../../types/review';
 
 type AppScreenProps = {
   films: Film[];
-  reviews: Review[];
 }
 
-function App({films, reviews}:AppScreenProps): JSX.Element {
+function App({films}:AppScreenProps): JSX.Element {
   const [firstFilm] = films;
-  const [firstReview] = reviews;
   return (
     <BrowserRouter>
       <Switch>
@@ -42,14 +39,6 @@ function App({films, reviews}:AppScreenProps): JSX.Element {
         <Route exact path={AppRoute.AddReview}>
           <AddReviewScreen
             film={firstFilm}
-            review={firstReview}
-            reviews={reviews}
-            onReview={() => {
-              throw new Error('Function \'onReview\' isn\'t implemented.');
-            }}
-            onChange={() => {
-              throw new Error('Function \'onChange\' isn\'t implemented.');
-            }}
           />
         </Route>
         <Route exact path={AppRoute.Player}>

@@ -1,26 +1,43 @@
 import React, {useState, ChangeEvent, FormEvent} from 'react';
 import Logo from '../logo/logo';
 import {Film} from '../../types/film';
-import {Review} from '../../types/review';
 import {Link} from 'react-router-dom';
 
 type AddReviewScreenProps = {
   film: Film;
-  review: Review;
-  reviews: Review[];
-  onReview: (review: Review) => void;
-  onChange: (starChange: any) => void;
 }
 
+const selectedRating = [
+  {
+    title: 'Bad',
+  },
+  {
+    title: 'Normal',
+  },
+  {
+    title: 'Good',
+  },
+  {
+    title: 'Very good',
+  },
+  {
+    title: 'Awesome',
+  },
+];
 
-function AddReviewScreen({film, review, reviews, onReview, onChange}: AddReviewScreenProps): JSX.Element {
-  const [userReviews, setUserReviews] = useState([false, false, false, false, false, false, false, false, false, false]);
-  const handleChangeStar = () => {
-    onChange=({target}:ChangeEvent<HTMLInputElement>) => {
-      const value = target.checked;
-      setUserReviews([...userReviews.slice(0, review.rating), value]);
-    };
-  };
+
+function AddReviewScreen({film}: AddReviewScreenProps): JSX.Element {
+  const [rating, setRating] = useState('');
+  const [reviewText, setReviewText] = useState('');
+
+  function ratingChange(evt: ChangeEvent<HTMLInputElement>) {
+    setRating(evt.currentTarget.value);
+  }
+
+  function reviewTextChange(evt: ChangeEvent<HTMLTextAreaElement>) {
+    setReviewText(evt.target.value);
+  }
+
   return (
     <section key={film.id} className="film-card film-card--full">
       <div className="film-card__header">
@@ -68,23 +85,23 @@ function AddReviewScreen({film, review, reviews, onReview, onChange}: AddReviewS
       <div className="add-review">
         <form action="#" className="add-review__form" onSubmit={(evt: FormEvent<HTMLFormElement>) => {
           evt.preventDefault();
-          onReview(review);
         }}
         >
           <div className="rating">
             <div className="rating__stars">
 
-              {reviews.map(() => (
+              {selectedRating.map((star, index) => (
                 <>
-                  <input className="rating__input" id={`star-${review.rating}`} type="radio" name="rating" value={`star-${review.rating}`} checked={userReviews[review.user.id]} onChange={handleChangeStar}/>
-                  <label className="rating__label" htmlFor={`star-${review.rating}`}>Rating {review.rating}</label>
+                  <input className="rating__input" key={star.title} id={`star-${index}`} type="radio" name="rating" value={index} checked={rating === index.toString()} onChange={ratingChange}/>
+                  <label className="rating__label" htmlFor={`star-${index}`}>Rating {index}</label>
                 </>
               ))}
+
             </div>
           </div>
 
           <div className="add-review__text">
-            <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"></textarea>
+            <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" value={reviewText} onChange={reviewTextChange}></textarea>
             <div className="add-review__submit">
               <button className="add-review__btn" type="submit">Post</button>
             </div>

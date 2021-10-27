@@ -1,10 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import Logo from '../logo/logo';
 import {FilmList} from '../film-list/film-list';
 import {Film} from '../../types/film';
 import {films} from '../../mocks/films';
 import {Footer} from '../footer/footer';
+import {AppRoute} from '../../const';
 
 
 type FilmsScreenProps = {
@@ -12,6 +13,7 @@ type FilmsScreenProps = {
 }
 
 function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
+  const history = useHistory();
   return (
     <>
       <section key={film.id} className="film-card film-card--full">
@@ -50,19 +52,19 @@ function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button className="btn btn--play film-card__button" type="button" onClick={() => history.push(AppRoute.Player)}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
+                <button className="btn btn--list film-card__button" type="button" onClick={() => history.push(AppRoute.Film)}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to="/films/:id/review" className="btn film-card__button">Add review</Link>
+                <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>

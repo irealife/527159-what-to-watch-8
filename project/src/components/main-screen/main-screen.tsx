@@ -3,14 +3,16 @@ import {FilmList} from '../film-list/film-list';
 import {Film} from '../../types/film';
 import {films} from '../../mocks/films';
 import {Footer} from '../footer/footer';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import React from 'react';
+import {AppRoute} from '../../const';
 
 type MainScreenProps = {
   film: Film;
 }
 
 function MainScreen({film}: MainScreenProps): JSX.Element {
+  const history = useHistory();
   return (
     <>
       <section className="film-card">
@@ -51,13 +53,13 @@ function MainScreen({film}: MainScreenProps): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button className="btn btn--play film-card__button" type="button" onClick={() => history.push(AppRoute.Player)}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref={'#play-s'}/>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
+                <button className="btn btn--list film-card__button" type="button" onClick={() => history.push(AppRoute.Film)}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref={'#add'}/>
                   </svg>
