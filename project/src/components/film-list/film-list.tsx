@@ -8,11 +8,17 @@ type FilmListProps = {
 
 export function FilmList({films}: FilmListProps): JSX.Element {
   const [, setActiveFilmId] = useState(0);
+  const handleActiveFilm = (id: number) => {
+    setActiveFilmId(id);
+  };
+
   return (
     <div className="catalog__films-list">
       {films.map((film) => (
-        <FilmCard film={film} key={film.id} onMouseOver={setActiveFilmId} play={film.id}/>
+        <FilmCard film={film} key={film.id} onMouseEnter={handleActiveFilm} />
       ))}
     </div>
   );
 }
+
+// <FilmCard film={film} key={film.id} onMouseEnter={setActiveFilmId} />

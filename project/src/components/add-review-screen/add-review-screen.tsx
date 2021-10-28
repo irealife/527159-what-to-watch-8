@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 
 type AddReviewScreenProps = {
   film: Film;
+  onReviewNew: (film: Film) => void;
 }
 
 const selectedRating = [
@@ -26,7 +27,7 @@ const selectedRating = [
 ];
 
 
-function AddReviewScreen({film}: AddReviewScreenProps): JSX.Element {
+function AddReviewScreen({film, onReviewNew}: AddReviewScreenProps): JSX.Element {
   const [rating, setRating] = useState('');
   const [reviewText, setReviewText] = useState('');
 
@@ -83,8 +84,10 @@ function AddReviewScreen({film}: AddReviewScreenProps): JSX.Element {
       </div>
 
       <div className="add-review">
+
         <form action="#" className="add-review__form" onSubmit={(evt: FormEvent<HTMLFormElement>) => {
           evt.preventDefault();
+          onReviewNew(film);
         }}
         >
           <div className="rating">

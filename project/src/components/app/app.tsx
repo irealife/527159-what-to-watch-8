@@ -11,13 +11,14 @@ import NotFoundScreen from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import FilmReviewScreen from '../film-review-screen/film-review-screen';
 import {Film} from '../../types/film';
+import {films} from '../../mocks/films';
 
 type AppScreenProps = {
-  films: Film[];
+  filmsAll: Film[];
 }
 
-function App({films}:AppScreenProps): JSX.Element {
-  const [firstFilm] = films;
+function App({filmsAll}:AppScreenProps): JSX.Element {
+  const [firstFilm] = filmsAll;
   return (
     <BrowserRouter>
       <Switch>
@@ -33,19 +34,22 @@ function App({films}:AppScreenProps): JSX.Element {
         </PrivateRoute>
         <Route exact path={AppRoute.Film}>
           <FilmsScreen
-            film={firstFilm}
+            film={films[4]}
           />
         </Route>
         <Route exact path={AppRoute.AddReview}>
           <AddReviewScreen
-            film={firstFilm}
+            film={films[6]}
+            onReviewNew={() => {
+              throw new Error('Function \'onReviewNew\' isn\'t implemented.');
+            }}
           />
         </Route>
         <Route exact path={AppRoute.Player}>
           <PlayerScreen />
         </Route>
         <Route exact path={AppRoute.devReview}>
-          <FilmReviewScreen film={firstFilm} />
+          <FilmReviewScreen film={films[2]} />
         </Route>
         <Route>
           <NotFoundScreen />
