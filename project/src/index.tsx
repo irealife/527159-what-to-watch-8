@@ -1,19 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-
-const InfoPromoFilm = {
-  TITLE: 'The Grand Budapest Hotel',
-  GENRE: 'Drama',
-  RELEASE_DATE: 2014,
-};
+import {films} from './mocks/films';
 
 ReactDOM.render(
   <React.StrictMode>
     <App
-      title={InfoPromoFilm.TITLE}
-      genre={InfoPromoFilm.GENRE}
-      releaseDate={InfoPromoFilm.RELEASE_DATE}
+      filmsAll={films}
     />
   </React.StrictMode>,
   document.getElementById('root'));

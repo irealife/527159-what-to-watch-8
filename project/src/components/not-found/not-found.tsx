@@ -1,5 +1,6 @@
 import Logo from '../logo/logo';
 import {Link} from 'react-router-dom';
+import React from 'react';
 
 function NotFoundScreen(): JSX.Element {
   return (
