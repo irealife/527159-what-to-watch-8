@@ -1,12 +1,13 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
+import {AppRoute} from '../../const';
 import Logo from '../logo/logo';
 import {FilmList} from '../film-list/film-list';
+import {Footer} from '../footer/footer';
+import FilmTabs from '../tabs/tabs';
 import {Film} from '../../types/film';
 import {films} from '../../mocks/films';
-import {Footer} from '../footer/footer';
-import {AppRoute} from '../../const';
-
+import {reviews} from '../../mocks/reviews';
 
 type FilmsScreenProps = {
   film: Film;
@@ -76,35 +77,8 @@ function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
               <img src={film.posterImg} alt={film.name} width="218" height="327"/>
             </div>
 
-            <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="/" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
+            <FilmTabs film={films[0]} review={reviews[0]} />
 
-              <div className="film-rating">
-                <div className="film-rating__score">{film.rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">{film.scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{film.description}</p>
-                <p className="film-card__director"><strong>Director: {film.director}</strong></p>
-                <p className="film-card__starring"><strong>Starring: {film.starring}</strong></p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -112,13 +86,12 @@ function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmList films={films} />
+          <FilmList films={films.filter((item) => item.genre === films[0].genre).slice(1)} />
 
         </section>
 
-        <footer className="page-footer">
-          <Footer />
-        </footer>
+        <Footer />
+
       </div>
     </>
   );

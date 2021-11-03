@@ -114,9 +114,8 @@ function MainScreen({film}: MainScreenProps): JSX.Element {
           </div>
         </section>
 
-        <footer className="page-footer">
-          <Footer />
-        </footer>
+        <Footer />
+
       </div>
     </>
   );

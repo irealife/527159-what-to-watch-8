@@ -14,17 +14,16 @@ import {Film} from '../../types/film';
 import {films} from '../../mocks/films';
 
 type AppScreenProps = {
-  filmsAll: Film[];
+  movies: Film[];
 }
 
-function App({filmsAll}:AppScreenProps): JSX.Element {
-  const [firstFilm] = filmsAll;
+function App({movies}:AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <MainScreen
-            film={firstFilm}
+            film={films[0]}
           />
         </Route>
         <Route exact path={AppRoute.SignIn}>
