@@ -31,9 +31,8 @@ function SignInScreen(): JSX.Element {
         </form>
       </div>
 
-      <footer className="page-footer">
-        <Footer />
-      </footer>
+      <Footer />
+
     </div>
   );
 }

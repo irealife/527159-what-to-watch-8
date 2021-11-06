@@ -107,9 +107,8 @@ function FilmReviewScreen({film}: FilmReviewScreenProps): JSX.Element {
           </div>
         </section>
 
-        <footer className="page-footer">
-          <Footer />
-        </footer>
+        <Footer />
+
       </div>
     </>
   );

@@ -1,7 +1,4 @@
-export type User = {
-  id: number;
-  name: string;
-}
+import {User} from './user';
 
 export type Review = {
   id: number;
