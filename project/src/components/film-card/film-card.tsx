@@ -21,7 +21,7 @@ export function FilmCard({film, isPlaying, onMouseOver, onMouseEnter}: FilmCardP
         <VideoPlayerPreview isPlaying={isPlaying} src={film.previewVideoLink} poster={film.previewImg} />
       </div>
       <h3 className="small-film-card__title">
-        <Link to={`/films/${film.id}`} className="small-film-card__link" href="film-page.html">{film.name}</Link>
+        <Link to={`/films/${film.id}`} className="small-film-card__link" href="/">{film.name}</Link>
       </h3>
     </article>
   );

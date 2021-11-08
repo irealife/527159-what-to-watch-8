@@ -1,11 +1,11 @@
 import React from 'react';
 import {Film} from '../../types/film';
 
-type FilmDetailsProps ={
+type TabFilmDetailsProps ={
   film: Film;
 }
 
-function FilmDetails({film}: FilmDetailsProps): JSX.Element {
+function TabFilmDetails({film}: TabFilmDetailsProps): JSX.Element {
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
@@ -37,4 +37,4 @@ function FilmDetails({film}: FilmDetailsProps): JSX.Element {
   );
 }
 
-export default FilmDetails;
+export default TabFilmDetails;

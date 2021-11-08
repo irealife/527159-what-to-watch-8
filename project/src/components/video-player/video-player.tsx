@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 
-const TIME_OUT_VIDEO = 100;
+const START_VIDEO_TIMEOUT = 100;
 
 type VideoPlayerProps = {
   isPlaying: boolean;
@@ -19,7 +19,7 @@ function VideoPlayerPreview({isPlaying, src, poster}: VideoPlayerProps): JSX.Ele
     if (videoRef.current && isPlaying) {
       timeOut = setTimeout(() => {
         videoRef.current?.play();
-      }, TIME_OUT_VIDEO);
+      }, START_VIDEO_TIMEOUT);
     }
 
     if (videoRef.current && !isPlaying) {

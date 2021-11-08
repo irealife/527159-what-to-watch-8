@@ -5,5 +5,5 @@ export type Review = {
   user: User;
   rating: number;
   comment: string;
-  date: string;
+  date: Date;
 }

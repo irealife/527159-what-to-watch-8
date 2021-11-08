@@ -4,23 +4,22 @@ import {AppRoute} from '../../const';
 import Logo from '../logo/logo';
 import {FilmList} from '../film-list/film-list';
 import {Footer} from '../footer/footer';
-import FilmTabs from '../tabs/tabs';
+import TabsFilm from '../tabs/tabs-film';
 import {Film} from '../../types/film';
-import {films} from '../../mocks/films';
 import {reviews} from '../../mocks/reviews';
 
 type FilmsScreenProps = {
-  film: Film;
+  films: Film[];
 }
 
-function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
+function FilmsScreen({films}: FilmsScreenProps): JSX.Element {
   const history = useHistory();
   return (
     <>
-      <section key={film.id} className="film-card film-card--full">
+      <section key={films[0].id} className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.backgroundImg} alt={film.name}/>
+            <img src={films[0].backgroundImg} alt={films[0].name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -46,10 +45,10 @@ function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film.name}</h2>
+              <h2 className="film-card__title">{films[0].name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.released}</span>
+                <span className="film-card__genre">{films[0].genre}</span>
+                <span className="film-card__year">{films[0].released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -74,10 +73,10 @@ function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film.posterImg} alt={film.name} width="218" height="327"/>
+              <img src={films[0].posterImg} alt={films[0].name} width="218" height="327"/>
             </div>
 
-            <FilmTabs film={films[0]} review={reviews[0]} />
+            <TabsFilm film={films[0]} reviews={reviews} />
 
           </div>
         </div>
@@ -86,7 +85,7 @@ function FilmsScreen({film}: FilmsScreenProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmList films={films.filter((item) => item.genre === films[0].genre).slice(1)} />
+          <FilmList films={films.filter((item) => item.genre === films[0].genre).slice(0, 4)} />
 
         </section>
 
