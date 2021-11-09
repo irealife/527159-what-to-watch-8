@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
-import {changeGenre} from '../../store/action';
-import {AppRoute, Genres} from '../../const';
+import {changeGenre, loadMore} from '../../store/action';
+import {AppRoute, Genres, SHOW_MORE_STEP} from '../../const';
 import {State} from '../../store/types/state';
 import {Actions} from '../../store/types/action';
 import Logo from '../logo/logo';
@@ -12,15 +12,20 @@ import {Footer} from '../footer/footer';
 import {GenreList} from '../genre-list/genre-list';
 import {FilmPromo} from '../../types/film';
 import {getFilterFilm} from '../../utils';
+import ShowMore from '../show-more/show-more';
 
-const mapStateToProps = ({films, genre}: State) => ({
+const mapStateToProps = ({films, genre, step}: State) => ({
   filmsToGenre: films,
   activeGenre: genre,
+  stepMore: step,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onChangeGenre(genre: Genres) {
     dispatch(changeGenre(genre));
+  },
+  onLoadMoreStep(step: number) {
+    dispatch(loadMore(step));
   },
 });
 
@@ -29,11 +34,27 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & FilmPromo;
 
-function MainScreen({genre, activeGenre, filmsToGenre, onChangeGenre, release, name}: ConnectedComponentProps): JSX.Element {
+function MainScreen({genre, activeGenre, filmsToGenre, stepMore, onChangeGenre, onLoadMoreStep, release, name}: ConnectedComponentProps): JSX.Element {
 
   const history = useHistory();
+
   const genres = Object.values(Genres) as Genres[];
+
   const filteredFilms = getFilterFilm(filmsToGenre, activeGenre);
+
+  const handleShowMoreButton = () => {
+    onLoadMoreStep(stepMore + SHOW_MORE_STEP);
+  };
+
+  const [filterFilm, setFilterFilm] = useState(filteredFilms);
+
+  useEffect(() => {
+    setFilterFilm(filteredFilms);
+  }, [activeGenre, filmsToGenre]);
+
+  const changeGenreCallBack = useCallback((genreActive) => {
+    onChangeGenre(genreActive);
+  }, [onChangeGenre]);
 
   return (
     <>
@@ -96,13 +117,12 @@ function MainScreen({genre, activeGenre, filmsToGenre, onChangeGenre, release, n
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenreList genres={genres} activeGenre={activeGenre} onChangeGenre={onChangeGenre} />
+          <GenreList genres={genres} activeGenre={activeGenre} onChangeGenre={changeGenreCallBack} />
 
-          <FilmList films={filteredFilms} />
+          <FilmList films={filterFilm} />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {filterFilm.length > SHOW_MORE_STEP ? filterFilm.slice(0, SHOW_MORE_STEP) && <ShowMore onLoadMore={handleShowMoreButton} /> : ''}
+
         </section>
 
         <Footer />

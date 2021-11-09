@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {Genres} from '../../const';
 
 type GenreListProps = {
@@ -12,17 +12,17 @@ export function GenreList({genres, activeGenre, onChangeGenre}: GenreListProps):
   const genresItemClass = 'catalog__genres-item';
   const genresItemClassActive = 'catalog__genres-item--active';
 
-  const handleGenreMouseEnter = () => {
-    onChangeGenre(activeGenre);
-  };
-
   return (
     <ul className="catalog__genres-list">
-      {genres.map((genre) => {
+      {genres.map((genre) => (
         <li className={[genresItemClass, genre === activeGenre ? genresItemClassActive : ''].join(' ')} key={genre}>
-          <a href="/" className="catalog__genres-link" onClick={handleGenreMouseEnter}>{genre}</a>
-        </li>;
-      })}
+          <a href="/" className="catalog__genres-link"
+            onClick={(evt:MouseEvent<HTMLAnchorElement>) => {evt.preventDefault(); onChangeGenre(genre);}}
+          >
+            {genre}
+          </a>
+        </li>
+      ))}
     </ul>
   );
 }

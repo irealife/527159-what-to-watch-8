@@ -31,7 +31,12 @@ function App({films, filmPromo}:AppScreenProps): JSX.Element {
         <Route exact path={AppRoute.SignIn}>
           <SignInScreen />
         </Route>
-        <PrivateRoute exact path={AppRoute.MyList} render={() => <FilmList films={films} />} authorizationStatus={AuthorizationStatus.NoAuth}>
+        <PrivateRoute
+          exact
+          path={AppRoute.MyList}
+          render={() => <FilmList films={films} />}
+          authorizationStatus={AuthorizationStatus.NoAuth}
+        >
         </PrivateRoute>
         <Route exact path={AppRoute.Film}>
           <FilmsScreen

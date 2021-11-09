@@ -1,13 +1,29 @@
-import {ActionType} from './types/action';
+import {ActionType, LoadMoreAction} from './types/action';
 import {Genres} from '../const';
 import {Film} from '../types/film';
 
-export const changeGenre = (genre: Genres) => ({
-  type: ActionType.changeGenreFilm,
-  payload: genre,
-} as const);
+type Action<T> = {
+  type: string,
+  payload: T,
+}
 
-export const filterFilms = (film: Film[]) => ({
-  type: ActionType.filterFilmsToGenre,
-  payload: film,
-} as const);
+export function changeGenre(genre: Genres): Action<Genres> {
+  return ({
+    type: ActionType.ChangeGenre,
+    payload: genre,
+  }) as const;
+}
+
+export function filterFilms(films: Film[]): Action<Film[]> {
+  return ({
+    type: ActionType.FilterFilms,
+    payload: films,
+  }) as const;
+}
+
+export function loadMore(step: number): LoadMoreAction {
+  return ({
+    type: ActionType.LoadMore,
+    payload: step,
+  }) as const;
+}

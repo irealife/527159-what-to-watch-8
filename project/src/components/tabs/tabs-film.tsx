@@ -33,29 +33,26 @@ function TabsFilm({film, reviews}: FilmTabsProps): JSX.Element {
   };
 
   return (
-    <>
-      <div className="film-card__desc">
-        <nav className="film-nav film-card__nav">
-          <ul className="film-nav__list">
-            <li className={currentTab === TabsFilmConst.FilmOverviewTab ? 'film-nav__item film-nav__item--active' : 'film-nav__item'} onClick={setOverViewTab}>
-              <div className="film-nav__link">Overview</div>
-            </li>
-            <li className={currentTab === TabsFilmConst.FilmDetailTab ? 'film-nav__item film-nav__item--active' : 'film-nav__item'} onClick={setDetailTab}>
-              <div className="film-nav__link">Details</div>
-            </li>
-            <li className={currentTab === TabsFilmConst.FilmReviewTab ? 'film-nav__item film-nav__item--active' : 'film-nav__item'} onClick={setReviewTab}>
-              <div className="film-nav__link">Reviews</div>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
+    <div className="film-card__desc">
+      <nav className="film-nav film-card__nav">
+        <ul className="film-nav__list">
+          <li className={currentTab === TabsFilmConst.FilmOverviewTab ? 'film-nav__item film-nav__item--active' : 'film-nav__item'} onClick={setOverViewTab}>
+            <div className="film-nav__link">Overview</div>
+          </li>
+          <li className={currentTab === TabsFilmConst.FilmDetailTab ? 'film-nav__item film-nav__item--active' : 'film-nav__item'} onClick={setDetailTab}>
+            <div className="film-nav__link">Details</div>
+          </li>
+          <li className={currentTab === TabsFilmConst.FilmReviewTab ? 'film-nav__item film-nav__item--active' : 'film-nav__item'} onClick={setReviewTab}>
+            <div className="film-nav__link">Reviews</div>
+          </li>
+        </ul>
+      </nav>
       <div className={'film-card__content film-card__content--active'}>
         {currentTab === TabsFilmConst.FilmOverviewTab && <TabFilmOverview film={film} />}
         {currentTab === TabsFilmConst.FilmDetailTab && <TabFilmDetails film={film} />}
         {currentTab === TabsFilmConst.FilmReviewTab && <TabFilmReviews reviews={reviews} />}
       </div>
-    </>
+    </div>
   );
 }
 
