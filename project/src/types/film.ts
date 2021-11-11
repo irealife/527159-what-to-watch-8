@@ -1,3 +1,5 @@
+import {Genres} from '../const';
+
 export type Film = {
   id: number;
   name: string;
@@ -13,7 +15,13 @@ export type Film = {
   director: string;
   starring: string[];
   runTime: number;
-  genre: string;
+  genre: Genres;
   released: number;
   isFavorite: boolean;
+}
+
+export type FilmPromo = {
+  name: string,
+  genre: string,
+  release: number,
 }

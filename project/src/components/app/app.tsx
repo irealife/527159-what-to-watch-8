@@ -4,36 +4,43 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import MainScreen from '../main-screen/main-screen';
 import AddReviewScreen from '../add-review-screen/add-review-screen';
 import FilmsScreen from '../films-screen/films-screen';
-import MyListScreen from '../my-list-screen/my-list-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
 import NotFoundScreen from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import FilmReviewScreen from '../film-review-screen/film-review-screen';
-import {Film} from '../../types/film';
-import {films} from '../../mocks/films';
+import {Film, FilmPromo} from '../../types/film';
+import {FilmList} from '../film-list/film-list';
 
 type AppScreenProps = {
-  movies: Film[];
+  films: Film[];
+  filmPromo: FilmPromo,
 }
 
-function App({movies}:AppScreenProps): JSX.Element {
+function App({films, filmPromo}:AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <MainScreen
-            film={films[0]}
+            genre={filmPromo.genre}
+            name={filmPromo.name}
+            release={filmPromo.release}
           />
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <SignInScreen />
         </Route>
-        <PrivateRoute exact path={AppRoute.MyList} render={() => <MyListScreen />} authorizationStatus={AuthorizationStatus.NoAuth}>
+        <PrivateRoute
+          exact
+          path={AppRoute.MyList}
+          render={() => <FilmList films={films} />}
+          authorizationStatus={AuthorizationStatus.NoAuth}
+        >
         </PrivateRoute>
         <Route exact path={AppRoute.Film}>
           <FilmsScreen
-            film={films[4]}
+            films={films}
           />
         </Route>
         <Route exact path={AppRoute.AddReview}>

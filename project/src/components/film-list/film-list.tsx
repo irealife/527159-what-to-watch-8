@@ -1,23 +1,29 @@
-import React, {useState, MouseEvent} from 'react';
+import React, {useState} from 'react';
 import {FilmCard} from '../film-card/film-card';
 import {Film} from '../../types/film';
 
 type FilmListProps = {
-  films: Film[];
+  films: Film[],
 }
 
 export function FilmList({films}: FilmListProps): JSX.Element {
   const [currentFilm, setCurrentFilm] = useState(0);
-  const handleActiveFilm = (filmId: number) => {
+  const handleFilmCardMouseEnter = (filmId: number) => {
     setCurrentFilm(filmId);
   };
-  const handleHoverPreviewFilm = (evt: MouseEvent) => {
-    setCurrentFilm(Number(evt.currentTarget.id));
+  const handleFilmCardMouseLeave = () => {
+    setCurrentFilm(0);
   };
   return (
     <div className="catalog__films-list">
       {films.map((film) => (
-        <FilmCard film={film} key={film.id} isPlaying={film.id === currentFilm} onMouseOver={handleHoverPreviewFilm} onMouseEnter={handleActiveFilm} />
+        <FilmCard
+          film={film}
+          key={film.id}
+          isPlaying={film.id === currentFilm}
+          onMouseLeave={handleFilmCardMouseLeave}
+          onMouseEnter={handleFilmCardMouseEnter}
+        />
       ))}
     </div>
   );

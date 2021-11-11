@@ -1,23 +1,66 @@
+import React, {useEffect, useState, useCallback} from 'react';
+import {Link, useHistory} from 'react-router-dom';
+import {Dispatch} from 'redux';
+import {connect, ConnectedProps} from 'react-redux';
+import {changeGenre, loadMore} from '../../store/action';
+import {AppRoute, Genres, SHOW_MORE_STEP} from '../../const';
+import {State} from '../../store/types/state';
+import {Actions} from '../../store/types/action';
 import Logo from '../logo/logo';
 import {FilmList} from '../film-list/film-list';
-import {Film} from '../../types/film';
-import {films} from '../../mocks/films';
 import {Footer} from '../footer/footer';
-import {Link, useHistory} from 'react-router-dom';
-import React from 'react';
-import {AppRoute} from '../../const';
+import {GenreList} from '../genre-list/genre-list';
+import {FilmPromo} from '../../types/film';
+import {getFilterFilm} from '../../utils';
+import ShowMore from '../show-more/show-more';
 
-type MainScreenProps = {
-  film: Film;
-}
+const mapStateToProps = ({films, genre, step}: State) => ({
+  filmsToGenre: films,
+  activeGenre: genre,
+  stepMore: step,
+});
 
-function MainScreen({film}: MainScreenProps): JSX.Element {
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onChangeGenre(genre: Genres) {
+    dispatch(changeGenre(genre));
+  },
+  onLoadMoreStep(step: number) {
+    dispatch(loadMore(step));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & FilmPromo;
+
+function MainScreen({genre, activeGenre, filmsToGenre, stepMore, onChangeGenre, onLoadMoreStep, release, name}: ConnectedComponentProps): JSX.Element {
+
   const history = useHistory();
+
+  const genres = Object.values(Genres) as Genres[];
+
+  const filteredFilms = getFilterFilm(filmsToGenre, activeGenre);
+
+  const handleShowMoreButton = () => {
+    onLoadMoreStep(stepMore + SHOW_MORE_STEP);
+  };
+
+  const [filterFilm, setFilterFilm] = useState(filteredFilms);
+
+  useEffect(() => {
+    setFilterFilm(filteredFilms);
+  }, [activeGenre, filmsToGenre]);
+
+  const changeGenreCallBack = useCallback((genreActive) => {
+    onChangeGenre(genreActive);
+  }, [onChangeGenre]);
+
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={film.backgroundImg} alt={film.name}/>
+          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -42,14 +85,14 @@ function MainScreen({film}: MainScreenProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={film.posterImg} alt={film.name} width="218" height="327"/>
+              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film.name}</h2>
+              <h2 className="film-card__title">{name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.released}</span>
+                <span className="film-card__genre">{genre}</span>
+                <span className="film-card__year">{release}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -74,44 +117,12 @@ function MainScreen({film}: MainScreenProps): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="/" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="/" className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
+          <GenreList genres={genres} activeGenre={activeGenre} onChangeGenre={changeGenreCallBack} />
 
-          <FilmList films={films} />
+          <FilmList films={filterFilm} />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {filterFilm.length > SHOW_MORE_STEP ? filterFilm.slice(0, SHOW_MORE_STEP) && <ShowMore onLoadMore={handleShowMoreButton} /> : ''}
+
         </section>
 
         <Footer />
@@ -121,4 +132,5 @@ function MainScreen({film}: MainScreenProps): JSX.Element {
   );
 }
 
-export default MainScreen;
+export {MainScreen};
+export default connector(MainScreen);

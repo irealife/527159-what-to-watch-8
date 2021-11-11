@@ -1,10 +1,11 @@
 import {Review} from '../../types/review';
+import {getDateFormat, getUserDateFormat} from '../../utils';
 
-type ReviewItemProps = {
+type TabReviewItemProps = {
   review: Review;
 }
 
-function ReviewItem({review}: ReviewItemProps): JSX.Element {
+function TabReviewItem({review}: TabReviewItemProps): JSX.Element {
   return (
     <div className="review">
       <blockquote className="review__quote">
@@ -12,7 +13,7 @@ function ReviewItem({review}: ReviewItemProps): JSX.Element {
 
         <footer className="review__details">
           <cite className="review__author">{review.user.name}</cite>
-          <time className="review__date" dateTime="2016-12-24">{review.date}</time>
+          <time className="review__date" dateTime={getDateFormat(review.date)}>{getUserDateFormat(review.date)}</time>
         </footer>
       </blockquote>
 
@@ -21,4 +22,4 @@ function ReviewItem({review}: ReviewItemProps): JSX.Element {
   );
 }
 
-export default ReviewItem;
+export default TabReviewItem;
