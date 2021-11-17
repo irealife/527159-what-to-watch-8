@@ -1,7 +1,24 @@
-function PlayerScreen(): JSX.Element {
+import {connect, ConnectedProps} from 'react-redux';
+import {State} from '../../store/types/state';
+import {useParams} from 'react-router';
+
+const mapStateToProps = ({films}: State) => ({
+  films,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type ConnectedComponentProps = PropsFromRedux;
+
+function PlayerScreen({films}: ConnectedComponentProps): JSX.Element {
+
+  const {backgroundImg} = useParams<{backgroundImg: string}>();
+
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src="#" className="player__video" poster={backgroundImg}></video>
 
       <button type="button" className="player__exit">Exit</button>
 
@@ -35,4 +52,6 @@ function PlayerScreen(): JSX.Element {
   );
 }
 
-export default PlayerScreen;
+export {PlayerScreen};
+
+export default connector(PlayerScreen);

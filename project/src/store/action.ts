@@ -1,6 +1,7 @@
 import {ActionType, LoadMoreAction} from './types/action';
-import {Genres} from '../const';
+import {Genres, AuthorizationStatus, AppRoute} from '../const';
 import {Film} from '../types/film';
+import {Review} from '../types/review';
 
 type Action<T> = {
   type: string,
@@ -27,3 +28,35 @@ export function loadMore(step: number): LoadMoreAction {
     payload: step,
   }) as const;
 }
+
+export function loadFilms(films: Film[]) {
+  return ({
+    type: ActionType.LoadFilms,
+    payload: films,
+  }) as const;
+}
+
+export function showReviews(reviews: Review[]) {
+  return ({
+    type: ActionType.ShowReviews,
+    payload: reviews,
+  }) as const;
+}
+
+export function requireAuthorization(authStatus: AuthorizationStatus) {
+  return ({
+    type: ActionType.RequireAuthorization,
+    payload: authStatus,
+  }) as const;
+}
+
+export function requireLogout() {
+  return ({
+    type: ActionType.RequireLogout,
+  }) as const;
+}
+
+export const redirectToRoute = (url: AppRoute) => ({
+  type: ActionType.RedirectToRoute,
+  payload: url,
+} as const);

@@ -1,23 +1,27 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
 import {changeGenre, loadMore} from '../../store/action';
-import {AppRoute, Genres, SHOW_MORE_STEP} from '../../const';
+import {AuthorizationStatus, Genres, SHOW_MORE_STEP} from '../../const';
 import {State} from '../../store/types/state';
 import {Actions} from '../../store/types/action';
 import Logo from '../logo/logo';
 import {FilmList} from '../film-list/film-list';
 import {Footer} from '../footer/footer';
 import {GenreList} from '../genre-list/genre-list';
-import {FilmPromo} from '../../types/film';
 import {getFilterFilm} from '../../utils';
 import ShowMore from '../show-more/show-more';
+import LoadingScreen from '../loading-screen/loading-screen';
+import UserRegistered from '../user-registered/user-registered';
+import UserNotRegistered from '../user-not-registered/user-not-registered';
 
-const mapStateToProps = ({films, genre, step}: State) => ({
-  filmsToGenre: films,
+const mapStateToProps = ({films, genre, step, isDataLoaded, authorizationStatus}: State) => ({
+  films: films,
   activeGenre: genre,
-  stepMore: step,
+  step: step,
+  isDataLoaded: isDataLoaded,
+  authorizationStatus: authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
@@ -32,25 +36,26 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & FilmPromo;
 
-function MainScreen({genre, activeGenre, filmsToGenre, stepMore, onChangeGenre, onLoadMoreStep, release, name}: ConnectedComponentProps): JSX.Element {
+type ConnectedComponentProps = PropsFromRedux;
 
-  const history = useHistory();
+function MainScreen({films, activeGenre, step, isDataLoaded, authorizationStatus, onChangeGenre, onLoadMoreStep}: ConnectedComponentProps): JSX.Element {
+
+  console.log(films);
 
   const genres = Object.values(Genres) as Genres[];
 
-  const filteredFilms = getFilterFilm(filmsToGenre, activeGenre);
+  const filteredFilms = getFilterFilm(films, activeGenre);
 
   const handleShowMoreButton = () => {
-    onLoadMoreStep(stepMore + SHOW_MORE_STEP);
+    onLoadMoreStep(step + SHOW_MORE_STEP);
   };
 
   const [filterFilm, setFilterFilm] = useState(filteredFilms);
 
   useEffect(() => {
     setFilterFilm(filteredFilms);
-  }, [activeGenre, filmsToGenre]);
+  }, [activeGenre, films]);
 
   const changeGenreCallBack = useCallback((genreActive) => {
     onChangeGenre(genreActive);
@@ -60,7 +65,7 @@ function MainScreen({genre, activeGenre, filmsToGenre, stepMore, onChangeGenre, 
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={films[0].backgroundImg} alt={films[0].name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -70,44 +75,44 @@ function MainScreen({genre, activeGenre, filmsToGenre, stepMore, onChangeGenre, 
             <Logo />
           </div>
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-              </div>
-            </li>
-            <li className="user-block__item">
-              <Link to="/login" className="user-block__link">Sign out</Link>
-            </li>
-          </ul>
+          {authorizationStatus === AuthorizationStatus.Auth ? <UserRegistered /> : <UserNotRegistered />}
+
         </header>
 
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+              <img src={films[0].posterImg} alt={films[0].name} width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{name}</h2>
+              <h2 className="film-card__title">{films[0].name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{release}</span>
+                <span className="film-card__genre">{films[0].genre}</span>
+                <span className="film-card__year">{films[0].released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={() => history.push(AppRoute.Player)}>
+                <Link
+                  to={`/player/${films[0].id}`}
+                  className="btn btn--play film-card__button"
+                  type="button"
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref={'#play-s'}/>
                   </svg>
                   <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button" onClick={() => history.push(AppRoute.Film)}>
+                </Link>
+                <Link
+                  to={'/myList'}
+                  className="btn btn--list film-card__button"
+                  type="button"
+                >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref={'#add'}/>
                   </svg>
                   <span>My list</span>
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -119,7 +124,7 @@ function MainScreen({genre, activeGenre, filmsToGenre, stepMore, onChangeGenre, 
 
           <GenreList genres={genres} activeGenre={activeGenre} onChangeGenre={changeGenreCallBack} />
 
-          <FilmList films={filterFilm} />
+          {isDataLoaded ? <FilmList films={filterFilm} /> : <LoadingScreen />}
 
           {filterFilm.length > SHOW_MORE_STEP ? filterFilm.slice(0, SHOW_MORE_STEP) && <ShowMore onLoadMore={handleShowMoreButton} /> : ''}
 

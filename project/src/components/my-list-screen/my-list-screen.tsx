@@ -1,11 +1,26 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import {FilmList} from '../film-list/film-list';
-import {films} from '../../mocks/films';
 import {Footer} from '../footer/footer';
+import {State} from '../../store/types/state';
+import {connect, ConnectedProps} from 'react-redux';
+import {AuthorizationStatus} from '../../const';
+import UserRegistered from '../user-registered/user-registered';
+import UserNotRegistered from '../user-not-registered/user-not-registered';
 
-function MyListScreen(): JSX.Element {
+const mapStateToProps = ({films, authorizationStatus}: State) => ({
+  films,
+  authorizationStatus,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFormRedux = ConnectedProps<typeof connector>;
+
+type ConnectedComponentProps = PropsFormRedux;
+
+
+function MyListScreen({films, authorizationStatus}: ConnectedComponentProps): JSX.Element {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -15,18 +30,8 @@ function MyListScreen(): JSX.Element {
 
         <h1 className="page-title user-page__title">My list</h1>
 
-        <ul className="user-block">
-          <li className="user-block__item">
-            <div className="user-block__avatar">
-              <Link to="/login">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-              </Link>
-            </div>
-          </li>
-          <li className="user-block__item">
-            <Link to="/login" className="user-block__link">Sign out</Link>
-          </li>
-        </ul>
+        {authorizationStatus === AuthorizationStatus.Auth ? <UserRegistered /> : <UserNotRegistered />}
+
       </header>
 
       <section className="catalog">
@@ -43,4 +48,6 @@ function MyListScreen(): JSX.Element {
   );
 }
 
-export default MyListScreen;
+export {MyListScreen};
+
+export default connector(MyListScreen);
