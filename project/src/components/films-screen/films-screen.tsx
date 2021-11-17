@@ -1,25 +1,38 @@
 import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import {FilmList} from '../film-list/film-list';
 import {Footer} from '../footer/footer';
 import TabsFilm from '../tabs/tabs-film';
-import {Film} from '../../types/film';
-import {reviews} from '../../mocks/reviews';
+import {State} from '../../store/types/state';
+import {connect, ConnectedProps} from 'react-redux';
+import {useParams} from 'react-router';
+import {AuthorizationStatus} from '../../const';
+import UserRegistered from '../user-registered/user-registered';
+import UserNotRegistered from '../user-not-registered/user-not-registered';
 
-type FilmsScreenProps = {
-  films: Film[];
-}
+const mapStateToProps = ({films, authorizationStatus, reviews}: State) => ({
+  films,
+  reviews,
+  authorizationStatus,
+});
 
-function FilmsScreen({films}: FilmsScreenProps): JSX.Element {
-  const history = useHistory();
+const connector = connect(mapStateToProps);
+
+type PropsFormRedux = ConnectedProps<typeof connector>;
+
+type ConnectedComponentProps = PropsFormRedux;
+
+function FilmsScreen({films, authorizationStatus, reviews}: ConnectedComponentProps): JSX.Element {
+
+  const {id, backgroundImg, name, genre, released, posterImg} = useParams<{id: string, backgroundImg: string, name: string, genre: string, released: string, posterImg: string}>();
+
   return (
     <>
-      <section key={films[0].id} className="film-card film-card--full">
+      <section key={id} className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={films[0].backgroundImg} alt={films[0].name}/>
+            <img src={backgroundImg} alt={name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -29,42 +42,42 @@ function FilmsScreen({films}: FilmsScreenProps): JSX.Element {
               <Logo />
             </div>
 
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <Link to="/login">
-                    <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-                  </Link>
-                </div>
-              </li>
-              <li className="user-block__item">
-                <Link to="/login" className="user-block__link">Sign out</Link>
-              </li>
-            </ul>
+            {authorizationStatus === AuthorizationStatus.Auth ? <UserRegistered /> : <UserNotRegistered />}
+
           </header>
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{films[0].name}</h2>
+              <h2 className="film-card__title">{name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{films[0].genre}</span>
-                <span className="film-card__year">{films[0].released}</span>
+                <span className="film-card__genre">{genre}</span>
+                <span className="film-card__year">{released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={() => history.push(AppRoute.Player)}>
+                <Link
+                  to={`/player/${id}`}
+                  className="btn btn--play film-card__button"
+                  type="button"
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button" onClick={() => history.push(AppRoute.Film)}>
+                </Link>
+                <Link
+                  to={'/myList'}
+                  className="btn btn--list film-card__button"
+                  type="button"
+                >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                </button>
-                <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
+                </Link>
+
+                {authorizationStatus === AuthorizationStatus.Auth ? <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link> : ''}
+
               </div>
             </div>
           </div>
@@ -73,7 +86,7 @@ function FilmsScreen({films}: FilmsScreenProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={films[0].posterImg} alt={films[0].name} width="218" height="327"/>
+              <img src={posterImg} alt={name} width="218" height="327"/>
             </div>
 
             <TabsFilm film={films[0]} reviews={reviews} />
@@ -96,4 +109,6 @@ function FilmsScreen({films}: FilmsScreenProps): JSX.Element {
   );
 }
 
-export default FilmsScreen;
+export {FilmsScreen};
+
+export default connector(FilmsScreen);

@@ -20,7 +20,7 @@ export function FilmList({films}: FilmListProps): JSX.Element {
         <FilmCard
           film={film}
           key={film.id}
-          isPlaying={film.id === currentFilm}
+          isPlaying={film.id === Number(currentFilm)}
           onMouseLeave={handleFilmCardMouseLeave}
           onMouseEnter={handleFilmCardMouseEnter}
         />

@@ -13,15 +13,9 @@ export type Film = {
   rating: number;
   scoresCount: number;
   director: string;
-  starring: string[];
+  starring: [];
   runTime: number;
   genre: Genres;
   released: number;
   isFavorite: boolean;
-}
-
-export type FilmPromo = {
-  name: string,
-  genre: string,
-  release: number,
 }

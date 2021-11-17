@@ -1,12 +1,29 @@
 import React, {useState, ChangeEvent, FormEvent} from 'react';
+import {Link} from 'react-router-dom';
+import {State} from '../../store/types/state';
+import {connect, ConnectedProps} from 'react-redux';
+import {useParams} from 'react-router-dom';
+import {AuthorizationStatus} from '../../const';
 import Logo from '../logo/logo';
 import {Film} from '../../types/film';
-import {Link} from 'react-router-dom';
+import UserRegistered from '../user-registered/user-registered';
+import UserNotRegistered from '../user-not-registered/user-not-registered';
+
+const mapStateToProps = ({films, authorizationStatus}: State) => ({
+  films,
+  authorizationStatus,
+});
 
 type AddReviewScreenProps = {
   film: Film;
   onReviewNew: (film: Film) => void;
 }
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type ConnectedComponentProps = PropsFromRedux & AddReviewScreenProps;
 
 const selectedRating = [
   {
@@ -27,7 +44,10 @@ const selectedRating = [
 ];
 
 
-function AddReviewScreen({film, onReviewNew}: AddReviewScreenProps): JSX.Element {
+function AddReviewScreen({films, authorizationStatus, film, onReviewNew}: ConnectedComponentProps): JSX.Element {
+
+  const {id, backgroundImg, name, posterImg} = useParams<{id: string, backgroundImg: string, name: string, posterImg: string}>();
+
   const [rating, setRating] = useState('');
   const [reviewText, setReviewText] = useState('');
 
@@ -40,10 +60,10 @@ function AddReviewScreen({film, onReviewNew}: AddReviewScreenProps): JSX.Element
   }
 
   return (
-    <section key={film.id} className="film-card film-card--full">
+    <section key={id} className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film.backgroundImg} alt={film.name}/>
+          <img src={backgroundImg} alt={name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -56,7 +76,7 @@ function AddReviewScreen({film, onReviewNew}: AddReviewScreenProps): JSX.Element
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">{film.name}</a>
+                <Link to={`/films/${id}`} className="breadcrumbs__link">{name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a href="/" className="breadcrumbs__link">Add review</a>
@@ -64,22 +84,12 @@ function AddReviewScreen({film, onReviewNew}: AddReviewScreenProps): JSX.Element
             </ul>
           </nav>
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <Link to="/login">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-                </Link>
-              </div>
-            </li>
-            <li className="user-block__item">
-              <Link to="/login" className="user-block__link">Sign out</Link>
-            </li>
-          </ul>
+          {authorizationStatus === AuthorizationStatus.Auth ? <UserRegistered /> : <UserNotRegistered />}
+
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={film.posterImg} alt={film.name} width="218" height="327"/>
+          <img src={posterImg} alt={name} width="218" height="327"/>
         </div>
       </div>
 
@@ -117,4 +127,6 @@ function AddReviewScreen({film, onReviewNew}: AddReviewScreenProps): JSX.Element
   );
 }
 
-export default AddReviewScreen;
+export {AddReviewScreen};
+
+export default connector(AddReviewScreen);

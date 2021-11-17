@@ -19,6 +19,7 @@ export function FilmCard({film, isPlaying, onMouseLeave, onMouseEnter}: FilmCard
     <article className="small-film-card catalog__films-card"
       onMouseLeave={onMouseLeave}
       onMouseEnter={handleMouseEnter}
+      id={String(film.id)}
     >
       <div className="small-film-card__image">
         <VideoPlayerPreview
