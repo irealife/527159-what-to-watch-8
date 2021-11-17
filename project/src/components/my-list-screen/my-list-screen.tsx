@@ -5,8 +5,8 @@ import {Footer} from '../footer/footer';
 import {State} from '../../store/types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import {AuthorizationStatus} from '../../const';
-import UserRegistered from "../user-registered/user-registered";
-import UserNotRegistered from "../user-not-registered/user-not-registered";
+import UserRegistered from '../user-registered/user-registered';
+import UserNotRegistered from '../user-not-registered/user-not-registered';
 
 const mapStateToProps = ({films, authorizationStatus}: State) => ({
   films,
