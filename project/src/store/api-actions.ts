@@ -31,7 +31,7 @@ export const fetchSimilarFilmAction = (id: number): ThunkActionResult =>
     dispatch(loadSimilarFilms(adapterData));
   };
 
-export const fetchPromoFilmAction = (id: number): ThunkActionResult =>
+export const fetchPromoFilmAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<Film>(APIRoute.PromoFilm);
     const adapterData = adapterFromServer(data);
