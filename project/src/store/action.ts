@@ -36,9 +36,37 @@ export function loadFilms(films: Film[]) {
   }) as const;
 }
 
-export function showReviews(reviews: Review[]) {
+export function loadSelectedFilm(film: Film) {
   return ({
-    type: ActionType.ShowReviews,
+    type: ActionType.LoadSelectedFilm,
+    payload: film,
+  }) as const;
+}
+
+export function loadSimilarFilms(films: Film[]) {
+  return ({
+    type: ActionType.LoadSimilarFilms,
+    payload: films,
+  }) as const;
+}
+
+export function loadPromoFilm(promoFilm: Film) {
+  return ({
+    type: ActionType.LoadPromoFilm,
+    payload: promoFilm,
+  }) as const;
+}
+
+export function setFavoriteFilmList(films: Film[]) {
+  return ({
+    type: ActionType.SetFavoriteFilmList,
+    payload: films,
+  }) as const;
+}
+
+export function loadReviews(reviews: Review[]) {
+  return ({
+    type: ActionType.LoadReviews,
     payload: reviews,
   }) as const;
 }

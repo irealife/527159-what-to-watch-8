@@ -1,5 +1,5 @@
 import {connect, ConnectedProps} from 'react-redux';
-import {State} from '../../store/types/state';
+import {State} from '../../store/reducer';
 import {useParams} from 'react-router';
 
 const mapStateToProps = ({films}: State) => ({

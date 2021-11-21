@@ -2,7 +2,7 @@ import {Film} from './types/film';
 import {Genres} from './const';
 import dayjs from 'dayjs';
 
-export function getFilterFilm(films: Film[], activeGenre: Genres): Film[] {
+export function filteredFilms(films: Film[], activeGenre: Genres): Film[] {
   if (activeGenre === Genres.AllGenres) {
     return films;
   }
@@ -32,7 +32,7 @@ export const starsFilm: StarFilm =  {
 export const getStarFilmToUser = (star: number): string => {
   if (starsFilm[star]) {
     return starsFilm[star];
-  } return ' ';
+  } return '';
 };
 
 export const getDateFormat = (date: Date): string => dayjs(date).format('YYYY-MM-DD');

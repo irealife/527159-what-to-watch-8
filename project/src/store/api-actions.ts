@@ -1,9 +1,10 @@
 import {ThunkActionResult} from './types/action';
-import {loadFilms, requireAuthorization, requireLogout, redirectToRoute} from './action';
+import {loadFilms, loadSelectedFilm, loadSimilarFilms, loadPromoFilm, setFavoriteFilmList, loadReviews, requireAuthorization, requireLogout, redirectToRoute} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {toast} from 'react-toastify';
 import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
 import {Film} from '../types/film';
+import {Review} from '../types/review';
 import {AuthData} from '../types/auth-data';
 import {adapterFromServer} from '../adapter-from-server';
 
@@ -14,6 +15,51 @@ export const fetchFilmAction = (): ThunkActionResult =>
     const {data} = await api.get<Film[]>(APIRoute.Films);
     const adapterData = data.map((item) => adapterFromServer(item));
     dispatch(loadFilms(adapterData));
+  };
+
+export const fetchSelectedFilmAction = (id: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Film>(`${APIRoute.Films}/${id}`);
+    const adapterData = adapterFromServer(data);
+    dispatch(loadSelectedFilm(adapterData));
+  };
+
+export const fetchSimilarFilmAction = (id: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Film[]>(`${APIRoute.Films}/${id}/similar`);
+    const adapterData = data.map((item) => adapterFromServer(item));
+    dispatch(loadSimilarFilms(adapterData));
+  };
+
+export const fetchPromoFilmAction = (id: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Film>(APIRoute.PromoFilm);
+    const adapterData = adapterFromServer(data);
+    dispatch(loadPromoFilm(adapterData));
+  };
+
+
+export const fetchFavoriteFilmListAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Film[]>(APIRoute.FavoriteFilms);
+    const adapterData = data.map((item) => adapterFromServer(item));
+    dispatch(setFavoriteFilmList(adapterData));
+  };
+
+export const setFavoriteFilmAction = (id: number, status: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api.post(`${APIRoute.FavoriteFilms}/${id}/${status}`);
+  };
+
+export const fetchReviewsFilmAction = (id: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Review[]>(`${APIRoute.Reviews}/${id}`);
+    dispatch(loadReviews(data));
+  };
+
+export const sendReviewFilmAction = (id: number, star: number, text: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api.post<Review>(`${APIRoute.Reviews}/${id}`, {star, text});
   };
 
 export const checkAuthAction = (): ThunkActionResult =>

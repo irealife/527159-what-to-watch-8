@@ -12,7 +12,7 @@ import PrivateRoute from '../private-route/private-route';
 import {FilmList} from '../film-list/film-list';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {isCheckedAuth} from '../../film';
-import {State} from '../../store/types/state';
+import {State} from '../../store/reducer';
 import browserHistory from '../../browser-history';
 
 const mapStateToProps = ({films, authorizationStatus, isDataLoaded}:State) => ({
@@ -44,18 +44,12 @@ function App({authorizationStatus, isDataLoaded, films}:ConnectedComponentProps)
         <Route exact path={AppRoute.SignIn}>
           <SignInScreen />
         </Route>
-        <PrivateRoute exact path={AppRoute.MyList} render={() => <FilmList films={films} />}>
-        </PrivateRoute>
+        <PrivateRoute exact path={AppRoute.MyList} render={() => <FilmList films={films} />} />
         <Route exact path={AppRoute.Film}>
           <FilmsScreen />
         </Route>
         <Route exact path={AppRoute.AddReview}>
-          <AddReviewScreen
-            film={films[6]}
-            onReviewNew={() => {
-              throw new Error('Function \'onReviewNew\' isn\'t implemented.');
-            }}
-          />
+          <AddReviewScreen />
         </Route>
         <Route exact path={AppRoute.Player}>
           <PlayerScreen />
