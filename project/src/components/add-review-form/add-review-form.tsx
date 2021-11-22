@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {Fragment, ChangeEvent, useEffect, useState} from 'react';
 import {fetchSelectedFilmAction, sendReviewFilmAction} from '../../store/api-actions';
 import {State} from '../../store/reducer';
 import {ThunkAppDispatch} from '../../store/types/action';
@@ -20,8 +20,8 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   fetchSelectedFilm(id: number) {
     dispatch(fetchSelectedFilmAction(id));
   },
-  sendReviewFilm(id: number, star: number, text: string) {
-    dispatch(sendReviewFilmAction(id, star, text));
+  sendReviewFilm(id: number, rating: number, comment: string) {
+    dispatch(sendReviewFilmAction(id, rating, comment));
   },
 });
 
@@ -41,7 +41,7 @@ function AddReviewForm({film, fetchSelectedFilm, sendReviewFilm, authorizationSt
 
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
-  const [formReview, setFormReview] = useState(false);
+  const [isDisabled, setDisabled] = useState(false);
 
   function ratingChange(evt: ChangeEvent<HTMLInputElement>) {
     setRating(Number(evt.currentTarget.value));
@@ -55,22 +55,18 @@ function AddReviewForm({film, fetchSelectedFilm, sendReviewFilm, authorizationSt
     return <Redirect to={AppRoute.SignIn} />;
   }
 
-  const checkingForm = () => (
-    reviewText.length >= TEXT_LENGTH_MIN && reviewText.length <= TEXT_LENGTH_MAX
-  );
-
-  const onDisabledButtonSendForm = () => (
-    !checkingForm() || formReview
+  const isValidForm = () => (
+    !isDisabled && reviewText.length >= TEXT_LENGTH_MIN && reviewText.length <= TEXT_LENGTH_MAX
   );
 
   const onSubmitForm = async (evt: ChangeEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     try {
-      setFormReview(true);
+      setDisabled(true);
       sendReviewFilm(Number(id), rating, reviewText);
     } catch (error) {
-      setFormReview(false);
+      setDisabled(false);
     }
   };
 
@@ -80,11 +76,11 @@ function AddReviewForm({film, fetchSelectedFilm, sendReviewFilm, authorizationSt
         <div className="rating">
           <div className="rating__stars">
             {new Array(STARS_COUNT).fill(null).map((star, index) => (
-              <>
+              <Fragment key={star}>
                 <input className="rating__input" key={star} id={`star-${index}`} type="radio" name="rating" value={index} checked={rating === index} onChange={ratingChange}/>
                 <label className="rating__label" htmlFor={`star-${index}`}>Rating {index}</label>
-              </>
-            ))}
+              </Fragment>
+            )).reverse()}
           </div>
         </div>
         <div className="add-review__text">
@@ -97,10 +93,10 @@ function AddReviewForm({film, fetchSelectedFilm, sendReviewFilm, authorizationSt
             placeholder="Review text"
             value={reviewText}
             onChange={reviewTextChange}
-            disabled={formReview}
+            disabled={isDisabled}
           />
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit" disabled={onDisabledButtonSendForm()}>Post</button>
+            <button className="add-review__btn" type="submit" disabled={!isValidForm()}>Post</button>
           </div>
         </div>
       </form>

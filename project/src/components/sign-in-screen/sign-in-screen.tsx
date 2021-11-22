@@ -1,12 +1,10 @@
 import Logo from '../logo/logo';
 import {Footer} from '../footer/footer';
 import {useRef, FormEvent} from 'react';
-import {useHistory} from 'react-router-dom';
 import {connect, ConnectedProps} from 'react-redux';
 import {loginAction} from '../../store/api-actions';
 import {ThunkAppDispatch} from '../../store/types/action';
 import {AuthData} from '../../types/auth-data';
-import {AppRoute} from '../../const';
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onSubmit(authData: AuthData) {
@@ -22,8 +20,6 @@ function SignInScreen({onSubmit}: PropsFromRedux): JSX.Element {
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
-  const history = useHistory();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -78,7 +74,6 @@ function SignInScreen({onSubmit}: PropsFromRedux): JSX.Element {
           </div>
           <div className="sign-in__submit">
             <button
-              onClick={() => history.push(AppRoute.MyList)}
               className="sign-in__btn"
               type="submit"
             >

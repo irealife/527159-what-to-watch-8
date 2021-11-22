@@ -15,7 +15,7 @@ import {redirect} from './store/middlewares/redirect';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const api = createAPI(() => store.dispatch(requireAuthorization(AuthorizationStatus.Auth)));
+const api = createAPI(() => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)));
 
 const store = createStore(
   reducer,

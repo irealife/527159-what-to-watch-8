@@ -57,9 +57,9 @@ export const fetchReviewsFilmAction = (id: number): ThunkActionResult =>
     dispatch(loadReviews(data));
   };
 
-export const sendReviewFilmAction = (id: number, star: number, text: string): ThunkActionResult =>
+export const sendReviewFilmAction = (id: number, rating: number, comment: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.post<Review>(`${APIRoute.Reviews}/${id}`, {star, text});
+    await api.post<Review>(`${APIRoute.Reviews}/${id}`, {rating, comment});
   };
 
 export const checkAuthAction = (): ThunkActionResult =>

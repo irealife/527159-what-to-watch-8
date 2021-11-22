@@ -14,11 +14,11 @@ type ConnectedComponentProps = PropsFromRedux;
 
 function PlayerScreen({films}: ConnectedComponentProps): JSX.Element {
 
-  const {backgroundImg} = useParams<{backgroundImg: string}>();
+  const {id} = useParams<{id: string}>();
 
   return (
     <div className="player">
-      <video src="#" className="player__video" poster={backgroundImg}></video>
+      <video src="#" className="player__video" poster={id}></video>
 
       <button type="button" className="player__exit">Exit</button>
 
