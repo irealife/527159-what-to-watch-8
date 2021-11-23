@@ -9,11 +9,11 @@ import PlayerScreen from '../player-screen/player-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
 import NotFoundScreen from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import {FilmList} from '../film-list/film-list';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {isCheckedAuth} from '../../film';
 import {State} from '../../store/reducer';
 import browserHistory from '../../browser-history';
+import MyListScreen from '../my-list-screen/my-list-screen';
 
 const mapStateToProps = ({films, authorizationStatus, isDataLoaded}:State) => ({
   films,
@@ -44,7 +44,7 @@ function App({authorizationStatus, isDataLoaded, films}:ConnectedComponentProps)
         <Route exact path={AppRoute.SignIn}>
           <SignInScreen />
         </Route>
-        <PrivateRoute exact path={AppRoute.MyList} render={() => <FilmList films={films} />} />
+        <PrivateRoute exact path={AppRoute.MyList} render={() => <MyListScreen />} />
         <Route exact path={AppRoute.Film}>
           <FilmsScreen />
         </Route>

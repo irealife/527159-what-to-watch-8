@@ -1,6 +1,7 @@
 import React, {MouseEvent} from 'react';
 import {useDispatch} from 'react-redux';
 import {logoutAction} from '../../store/api-actions';
+import {Link} from 'react-router-dom';
 
 function UserRegistered(): JSX.Element {
   const dispatch = useDispatch();
@@ -13,7 +14,9 @@ function UserRegistered(): JSX.Element {
     <ul className="user-block">
       <li className="user-block__item">
         <div className="user-block__avatar">
-          <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+          <Link to={'/myList'}>
+            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+          </Link>
         </div>
       </li>
       <li className="user-block__item">

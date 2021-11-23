@@ -1,7 +1,7 @@
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {AxiosInstance} from 'axios';
 import {State} from '../reducer';
-import {changeGenre, filterFilms, loadFilms, loadSelectedFilm, loadSimilarFilms, loadPromoFilm, setFavoriteFilmList, loadReviews, requireAuthorization, requireLogout, redirectToRoute} from '../action';
+import {changeGenre, filterFilms, loadFilms, loadSelectedFilm, loadSimilarFilms, loadPromoFilm, setFavoriteFilmList, setFavoriteFilmStatus, loadReviews, requireAuthorization, requireLogout, redirectToRoute} from '../action';
 
 export enum ActionType {
   ChangeGenre = 'film/changeGenre',
@@ -12,6 +12,7 @@ export enum ActionType {
   LoadSimilarFilms = 'data/LoadSimilarFilms',
   LoadPromoFilm = 'data/LoadPromoFilm',
   SetFavoriteFilmList = 'data/SetFavoriteFilmList',
+  SetFaviroteFilmStatus = 'data/SetFaviroteFilmStatus',
   LoadReviews = 'film/loadReviews',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
@@ -31,6 +32,7 @@ export type Actions =
   | ReturnType<typeof loadSimilarFilms>
   | ReturnType<typeof loadPromoFilm>
   | ReturnType<typeof setFavoriteFilmList>
+  | ReturnType<typeof setFavoriteFilmStatus>
   | ReturnType<typeof loadReviews>
   | ReturnType<typeof requireAuthorization>
   | ReturnType<typeof requireLogout>

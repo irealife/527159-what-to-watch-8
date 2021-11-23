@@ -35,7 +35,7 @@ function AddReviewScreen({authorizationStatus, film, fetchSelectedFilm}: Connect
 
   useEffect(() => {
     fetchSelectedFilm(Number(id));
-  }, [id]);
+  }, [fetchSelectedFilm, id]);
 
   return film !== undefined ? (
     <section key={film.id} className="film-card film-card--full">

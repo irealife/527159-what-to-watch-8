@@ -35,5 +35,11 @@ export enum Genres {
   Thriller = 'Thriller',
 }
 
+export enum FavoriteStatus {
+  addFilmMyList = 1,
+  delFilmMyList = 0,
+}
+
 export const INITIAL_FILMS_COUNT = 8;
 export const SHOW_MORE_STEP = 8;
+export const MAX_SIMILAR_FILMS_COUNT = 4;

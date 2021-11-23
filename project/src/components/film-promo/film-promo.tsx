@@ -2,13 +2,14 @@ import Logo from '../logo/logo';
 import {AuthorizationStatus} from '../../const';
 import UserRegistered from '../user-registered/user-registered';
 import UserNotRegistered from '../user-not-registered/user-not-registered';
-import {Link} from 'react-router-dom';
 import React, {useEffect} from 'react';
 import {State} from '../../store/reducer';
 import {fetchPromoFilmAction} from '../../store/api-actions';
 import {ThunkAppDispatch} from '../../store/types/action';
 import {connect, ConnectedProps} from 'react-redux';
 import NotFoundScreen from '../not-found/not-found';
+import ButtonPlay from '../films-button/button-play';
+import ButtonMyList from '../films-button/button-my-list';
 
 const mapStateToProps = ({promoFilm, authorizationStatus}: State) => ({
   promoFilm,
@@ -57,26 +58,8 @@ function FilmPromo({promoFilm, fetchPromoFilm, authorizationStatus}: ConnectedCo
               <span className="film-card__year">{promoFilm.released}</span>
             </p>
             <div className="film-card__buttons">
-              <Link
-                to={`/player/${promoFilm.id}`}
-                className="btn btn--play film-card__button"
-                type="button"
-              >
-                <svg viewBox="0 0 19 19" width="19" height="19">
-                  <use xlinkHref={'#play-s'}/>
-                </svg>
-                <span>Play</span>
-              </Link>
-              <Link
-                to={'/myList'}
-                className="btn btn--list film-card__button"
-                type="button"
-              >
-                <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use xlinkHref={'#add'}/>
-                </svg>
-                <span>My list</span>
-              </Link>
+              <ButtonPlay film={promoFilm} />
+              <ButtonMyList film={promoFilm} isFavorite={promoFilm.isFavorite} />
             </div>
           </div>
         </div>

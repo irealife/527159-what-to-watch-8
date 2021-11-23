@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Logo from '../logo/logo';
 import {Footer} from '../footer/footer';
 import {State} from '../../store/reducer';
@@ -8,7 +8,8 @@ import {AuthorizationStatus} from '../../const';
 import UserRegistered from '../user-registered/user-registered';
 import UserNotRegistered from '../user-not-registered/user-not-registered';
 import {ThunkAppDispatch} from '../../store/types/action';
-import {FilmCard} from '../film-card/film-card';
+// import {FilmCard} from '../film-card/film-card';
+import {FilmList} from '../film-list/film-list';
 
 const mapStateToProps = ({favoriteFilmList, authorizationStatus}: State) => ({
   favoriteFilmList,
@@ -34,13 +35,13 @@ function MyListScreen({favoriteFilmList, fetchFavoriteFilmList, authorizationSta
     fetchFavoriteFilmList();
   }, [fetchFavoriteFilmList]);
 
-  const [currentFilm, setCurrentFilm] = useState(0);
-  const handleFilmCardMouseEnter = (filmId: number) => {
-    setCurrentFilm(filmId);
-  };
-  const handleFilmCardMouseLeave = () => {
-    setCurrentFilm(0);
-  };
+  // const [currentFilm, setCurrentFilm] = useState(0);
+  // const handleFilmCardMouseEnter = (filmId: number) => {
+  //   setCurrentFilm(filmId);
+  // };
+  // const handleFilmCardMouseLeave = () => {
+  //   setCurrentFilm(0);
+  // };
 
   return (
     <div className="user-page">
@@ -54,15 +55,16 @@ function MyListScreen({favoriteFilmList, fetchFavoriteFilmList, authorizationSta
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
         <div className="catalog__films-list">
-          {favoriteFilmList && favoriteFilmList.map((item) => (
-            <FilmCard
-              film={item}
-              key={item.id}
-              isPlaying={item.id === Number(currentFilm)}
-              onMouseLeave={handleFilmCardMouseLeave}
-              onMouseEnter={handleFilmCardMouseEnter}
-            />
-          ))}
+          {/*{favoriteFilmList && favoriteFilmList.map((item) => (*/}
+          {/*  <FilmCard*/}
+          {/*    film={item}*/}
+          {/*    key={item.id}*/}
+          {/*    isPlaying={item.id === Number(currentFilm)}*/}
+          {/*    onMouseLeave={handleFilmCardMouseLeave}*/}
+          {/*    onMouseEnter={handleFilmCardMouseEnter}*/}
+          {/*  />*/}
+          {/*))}*/}
+          {favoriteFilmList && <FilmList films={favoriteFilmList} />}
         </div>
       </section>
       <Footer />

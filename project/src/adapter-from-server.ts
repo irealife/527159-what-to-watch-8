@@ -1,6 +1,6 @@
 import {Film} from './types/film';
 
-export function adapterFromServer(data: {[key: string]: any}): Film {
+export function adapterFromServer(data: {[key: string]: unknown}): Film {
   const adaptedFilm = Object.assign({}, data, {
     posterImg: data['poster_image'],
     previewImg: data['preview_image'],

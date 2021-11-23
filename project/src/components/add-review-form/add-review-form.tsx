@@ -1,4 +1,4 @@
-import React, {Fragment, ChangeEvent, useEffect, useState} from 'react';
+import React, {Fragment, ChangeEvent, useEffect, useState, FormEvent} from 'react';
 import {fetchSelectedFilmAction, sendReviewFilmAction} from '../../store/api-actions';
 import {State} from '../../store/reducer';
 import {ThunkAppDispatch} from '../../store/types/action';
@@ -37,14 +37,14 @@ function AddReviewForm({film, fetchSelectedFilm, sendReviewFilm, authorizationSt
 
   useEffect(() => {
     fetchSelectedFilm(Number(id));
-  }, [id]);
+  }, [fetchSelectedFilm, id]);
 
-  const [rating, setRating] = useState(0);
+  const [selectedRating, setSelectedRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
   const [isDisabled, setDisabled] = useState(false);
 
   function ratingChange(evt: ChangeEvent<HTMLInputElement>) {
-    setRating(Number(evt.currentTarget.value));
+    setSelectedRating(Number(evt.currentTarget.value));
   }
 
   function reviewTextChange(evt: ChangeEvent<HTMLTextAreaElement>) {
@@ -59,12 +59,12 @@ function AddReviewForm({film, fetchSelectedFilm, sendReviewFilm, authorizationSt
     !isDisabled && reviewText.length >= TEXT_LENGTH_MIN && reviewText.length <= TEXT_LENGTH_MAX
   );
 
-  const onSubmitForm = async (evt: ChangeEvent<HTMLFormElement>) => {
+  const onSubmitForm = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     try {
       setDisabled(true);
-      sendReviewFilm(Number(id), rating, reviewText);
+      sendReviewFilm(Number(id), selectedRating, reviewText);
     } catch (error) {
       setDisabled(false);
     }
@@ -75,12 +75,15 @@ function AddReviewForm({film, fetchSelectedFilm, sendReviewFilm, authorizationSt
       <form action="#" className="add-review__form" onSubmit={onSubmitForm}>
         <div className="rating">
           <div className="rating__stars">
-            {new Array(STARS_COUNT).fill(null).map((star, index) => (
-              <Fragment key={star}>
-                <input className="rating__input" key={star} id={`star-${index}`} type="radio" name="rating" value={index} checked={rating === index} onChange={ratingChange}/>
-                <label className="rating__label" htmlFor={`star-${index}`}>Rating {index}</label>
-              </Fragment>
-            )).reverse()}
+            {new Array(STARS_COUNT).fill(null).map((star, index) => {
+              const rating = index + 1;
+              return (
+                <Fragment key={rating}>
+                  <input className="rating__input" key={star} id={`star-${rating}`} type="radio" name="rating" value={rating} checked={selectedRating === rating} onChange={ratingChange}/>
+                  <label className="rating__label" htmlFor={`star-${rating}`}>Rating {rating}</label>
+                </Fragment>
+              );
+            }).reverse()}
           </div>
         </div>
         <div className="add-review__text">

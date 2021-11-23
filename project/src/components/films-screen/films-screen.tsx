@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import Logo from '../logo/logo';
 import {Footer} from '../footer/footer';
 import TabsFilm from '../tabs/tabs-film';
 import {State} from '../../store/reducer';
 import {connect, ConnectedProps} from 'react-redux';
-import {AuthorizationStatus} from '../../const';
+import {AuthorizationStatus, MAX_SIMILAR_FILMS_COUNT} from '../../const';
 import UserRegistered from '../user-registered/user-registered';
 import UserNotRegistered from '../user-not-registered/user-not-registered';
 import {fetchSelectedFilmAction, fetchReviewsFilmAction, fetchSimilarFilmAction} from '../../store/api-actions';
 import {ThunkAppDispatch} from '../../store/types/action';
 import {FilmCard} from '../film-card/film-card';
+import FilmsButtons from '../films-button/films-button';
 
-const mapStateToProps = ({film, similarFilms, authorizationStatus, reviews}: State) => ({
+const mapStateToProps = ({film, similarFilms, authorizationStatus, reviews }: State) => ({
   film,
   similarFilms,
   reviews,
@@ -43,7 +44,7 @@ function FilmsScreen({film, fetchSelectedFilm, similarFilms, fetchSimilarFilm, r
 
   useEffect(() => {
     fetchSelectedFilm(Number(id));
-  }, [id]);
+  }, [fetchSelectedFilm, id]);
 
   useEffect(() => {
     fetchReviewsFilm(Number(id));
@@ -83,30 +84,7 @@ function FilmsScreen({film, fetchSelectedFilm, similarFilms, fetchSimilarFilm, r
                   <span className="film-card__genre">{film.genre}</span>
                   <span className="film-card__year">{film.released}</span>
                 </p>
-                <div className="film-card__buttons">
-                  <Link
-                    to={`/player/${film.id}`}
-                    className="btn btn--play film-card__button"
-                    type="button"
-                  >
-                    <svg viewBox="0 0 19 19" width="19" height="19">
-                      <use xlinkHref="#play-s"></use>
-                    </svg>
-                    <span>Play</span>
-                  </Link>
-                  <Link
-                    to={'/myList'}
-                    className="btn btn--list film-card__button"
-                    type="button"
-                  >
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add"></use>
-                    </svg>
-                    <span>My list</span>
-                  </Link>
-                  {authorizationStatus === AuthorizationStatus.Auth ?
-                    <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link> : ''}
-                </div>
+                <FilmsButtons film={film} isFavorite={film.isFavorite} />
               </div>
             </div>
           </div>
@@ -122,15 +100,17 @@ function FilmsScreen({film, fetchSelectedFilm, similarFilms, fetchSimilarFilm, r
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          {similarFilms.map((item) => (
-            <FilmCard
-              film={item}
-              key={item.id}
-              isPlaying={item.id === Number(currentFilm)}
-              onMouseLeave={handleFilmCardMouseLeave}
-              onMouseEnter={handleFilmCardMouseEnter}
-            />
-          )).slice(0, 4)}
+          <div className="catalog__films-list">
+            {similarFilms.map((item) => (
+              <FilmCard
+                film={item}
+                key={item.id}
+                isPlaying={item.id === Number(currentFilm)}
+                onMouseLeave={handleFilmCardMouseLeave}
+                onMouseEnter={handleFilmCardMouseEnter}
+              />
+            )).slice(0, MAX_SIMILAR_FILMS_COUNT)}
+          </div>
         </section>
         <Footer />
       </div>
