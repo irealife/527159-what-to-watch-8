@@ -1,130 +1,72 @@
-import React, {useState, ChangeEvent, FormEvent} from 'react';
+import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import {State} from '../../store/types/state';
+import {State} from '../../store/reducer';
 import {connect, ConnectedProps} from 'react-redux';
 import {useParams} from 'react-router-dom';
+import {ThunkAppDispatch} from '../../store/types/action';
+import {fetchSelectedFilmAction} from '../../store/api-actions';
 import {AuthorizationStatus} from '../../const';
 import Logo from '../logo/logo';
-import {Film} from '../../types/film';
+import AddReviewForm from '../add-review-form/add-review-form';
 import UserRegistered from '../user-registered/user-registered';
 import UserNotRegistered from '../user-not-registered/user-not-registered';
+import NotFoundScreen from '../not-found/not-found';
 
-const mapStateToProps = ({films, authorizationStatus}: State) => ({
-  films,
+const mapStateToProps = ({film, authorizationStatus}: State) => ({
+  film,
   authorizationStatus,
 });
 
-type AddReviewScreenProps = {
-  film: Film;
-  onReviewNew: (film: Film) => void;
-}
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  fetchSelectedFilm(id: number) {
+    dispatch(fetchSelectedFilmAction(id));
+  },
+});
 
-const connector = connect(mapStateToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-type ConnectedComponentProps = PropsFromRedux & AddReviewScreenProps;
+type ConnectedComponentProps = PropsFromRedux;
 
-const selectedRating = [
-  {
-    title: 'Bad',
-  },
-  {
-    title: 'Normal',
-  },
-  {
-    title: 'Good',
-  },
-  {
-    title: 'Very good',
-  },
-  {
-    title: 'Awesome',
-  },
-];
+function AddReviewScreen({authorizationStatus, film, fetchSelectedFilm}: ConnectedComponentProps): JSX.Element {
 
+  const {id} = useParams<{id: string}>();
 
-function AddReviewScreen({films, authorizationStatus, film, onReviewNew}: ConnectedComponentProps): JSX.Element {
+  useEffect(() => {
+    fetchSelectedFilm(Number(id));
+  }, [fetchSelectedFilm, id]);
 
-  const {id, backgroundImg, name, posterImg} = useParams<{id: string, backgroundImg: string, name: string, posterImg: string}>();
-
-  const [rating, setRating] = useState('');
-  const [reviewText, setReviewText] = useState('');
-
-  function ratingChange(evt: ChangeEvent<HTMLInputElement>) {
-    setRating(evt.currentTarget.value);
-  }
-
-  function reviewTextChange(evt: ChangeEvent<HTMLTextAreaElement>) {
-    setReviewText(evt.target.value);
-  }
-
-  return (
-    <section key={id} className="film-card film-card--full">
+  return film !== undefined ? (
+    <section key={film.id} className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={backgroundImg} alt={name}/>
+          <img src={film.backgroundImg} alt={film.name}/>
         </div>
-
         <h1 className="visually-hidden">WTW</h1>
-
         <header className="page-header">
           <div className="logo">
-            <Logo />
+            <Logo/>
           </div>
-
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={`/films/${id}`} className="breadcrumbs__link">{name}</Link>
+                <Link to={`/films/${id}`} className="breadcrumbs__link">{film.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a href="/" className="breadcrumbs__link">Add review</a>
               </li>
             </ul>
           </nav>
-
-          {authorizationStatus === AuthorizationStatus.Auth ? <UserRegistered /> : <UserNotRegistered />}
-
+          {authorizationStatus === AuthorizationStatus.Auth ? <UserRegistered/> : <UserNotRegistered/>}
         </header>
-
         <div className="film-card__poster film-card__poster--small">
-          <img src={posterImg} alt={name} width="218" height="327"/>
+          <img src={film.posterImg} alt={film.name} width="218" height="327"/>
         </div>
       </div>
-
-      <div className="add-review">
-
-        <form action="#" className="add-review__form" onSubmit={(evt: FormEvent<HTMLFormElement>) => {
-          evt.preventDefault();
-          onReviewNew(film);
-        }}
-        >
-          <div className="rating">
-            <div className="rating__stars">
-
-              {selectedRating.map((star, index) => (
-                <>
-                  <input className="rating__input" key={star.title} id={`star-${index}`} type="radio" name="rating" value={index} checked={rating === index.toString()} onChange={ratingChange}/>
-                  <label className="rating__label" htmlFor={`star-${index}`}>Rating {index}</label>
-                </>
-              ))}
-
-            </div>
-          </div>
-
-          <div className="add-review__text">
-            <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" value={reviewText} onChange={reviewTextChange}></textarea>
-            <div className="add-review__submit">
-              <button className="add-review__btn" type="submit">Post</button>
-            </div>
-
-          </div>
-        </form>
-      </div>
-
+      <AddReviewForm />
     </section>
-  );
+  ) : <NotFoundScreen />;
 }
 
 export {AddReviewScreen};

@@ -9,7 +9,6 @@ function NotFoundScreen(): JSX.Element {
         <div className="logo">
           <Logo />
         </div>
-
         <ul className="user-block">
           <li className="user-block__item">
             <div className="user-block__avatar">
@@ -21,7 +20,6 @@ function NotFoundScreen(): JSX.Element {
           </li>
         </ul>
       </header>
-
       <section className="film__screen">
         <h1>404. Page not found</h1>
         <Link to="/">Вернуться на главную</Link>

@@ -2,7 +2,7 @@ import {Route, Redirect} from 'react-router-dom';
 import {RouteProps} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {connect, ConnectedProps} from 'react-redux';
-import {State} from '../../store/types/state';
+import {State} from '../../store/reducer';
 import {History} from 'history';
 
 type RenderFuncProps = {
@@ -40,5 +40,4 @@ function PrivateRoute({exact, path, render, authorizationStatus}: ConnectedCompo
 }
 
 export {PrivateRoute};
-
 export default connector(PrivateRoute);

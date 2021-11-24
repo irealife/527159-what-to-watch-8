@@ -10,8 +10,11 @@ export enum AppRoute {
 
 export enum APIRoute {
   Films = '/films',
+  Reviews = '/comments',
   Login = '/login',
   Logout = '/logout',
+  PromoFilm = '/promo',
+  FavoriteFilms = 'favorite',
 }
 
 export enum AuthorizationStatus {
@@ -22,15 +25,20 @@ export enum AuthorizationStatus {
 
 export enum Genres {
   AllGenres = 'All genres',
-  Comedies = 'Comedies',
+  Comedy = 'Comedy',
+  Action = 'Action',
+  Adventure = 'Adventure',
   Crime = 'Crime',
-  Documentary = 'Documentary',
-  Dramas = 'Dramas',
-  Horror = 'Horror',
-  KidsFamily = 'Kids & Family',
-  Romance = 'Romance',
-  SciFi = 'Sci-Fi',
-  Thrillers = 'Thrillers',
+  Drama = 'Drama',
+  Fantasy = 'Fantasy',
+  Thriller = 'Thriller',
 }
 
+export enum FavoriteStatus {
+  Favorite = 1,
+  NotFavorite = 0,
+}
+
+export const INITIAL_FILMS_COUNT = 8;
 export const SHOW_MORE_STEP = 8;
+export const MAX_SIMILAR_FILMS_COUNT = 4;
