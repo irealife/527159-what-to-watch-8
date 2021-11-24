@@ -10,7 +10,7 @@ import {
   requireLogout,
   setFavoriteFilmList
 } from './action';
-import {dropToken, saveToken, Token} from '../services/token';
+import {dropToken, getToken, saveToken, Token} from '../services/token';
 import {toast} from 'react-toastify';
 import {APIRoute, AppRoute, AuthorizationStatus, FavoriteStatus} from '../const';
 import {Film} from '../types/film';
@@ -48,7 +48,6 @@ export const fetchPromoFilmAction = (): ThunkActionResult =>
     dispatch(loadPromoFilm(adapterData));
   };
 
-
 export const fetchFavoriteFilmListAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<Film[]>(APIRoute.FavoriteFilms);
@@ -58,7 +57,11 @@ export const fetchFavoriteFilmListAction = (): ThunkActionResult =>
 
 export const setFavoriteFilmAction = (id: number, status: FavoriteStatus): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    await api.post(`${APIRoute.FavoriteFilms}/${id}/${status}`);
+    if (getToken() !== '') {
+      await api.post(`${APIRoute.FavoriteFilms}/${id}/${status}`);
+    } else {
+      dispatch(redirectToRoute(`${APIRoute.Login}`));
+    }
   };
 
 export const fetchReviewsFilmAction = (id: number): ThunkActionResult =>

@@ -35,8 +35,8 @@ export enum Genres {
 }
 
 export enum FavoriteStatus {
-  addFilmMyList = 1,
-  delFilmMyList = 0,
+  Favorite = 1,
+  NotFavorite = 0,
 }
 
 export const INITIAL_FILMS_COUNT = 8;

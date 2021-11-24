@@ -7,7 +7,7 @@ import {connect, ConnectedProps} from 'react-redux';
 
 type ButtonMyListProps = {
   film: Film,
-  isFavorite: boolean,
+  isFavorite: boolean;
 };
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   },
 });
 
-const connector = connect(mapDispatchToProps);
+const connector = connect(null, mapDispatchToProps);
 
 type PropsFormRedux = ConnectedProps<typeof connector>;
 
@@ -25,9 +25,11 @@ type ConnectedComponentProps = PropsFormRedux & ButtonMyListProps;
 function ButtonMyList({film, isFavorite, setFavoriteFilm}: ConnectedComponentProps): JSX.Element {
 
   const onFavoriteButtonClick = () => {
-    const newStatus = isFavorite ? FavoriteStatus.delFilmMyList : FavoriteStatus.addFilmMyList;
+    const newStatus = isFavorite ? FavoriteStatus.NotFavorite : FavoriteStatus.Favorite;
     setFavoriteFilm(film.id, newStatus);
   };
+
+  const iconFavorite = isFavorite ? '#in-list' : '#add';
 
   return (
     <button
@@ -36,7 +38,7 @@ function ButtonMyList({film, isFavorite, setFavoriteFilm}: ConnectedComponentPro
       onClick={onFavoriteButtonClick}
     >
       <svg viewBox="0 0 19 20" width="19" height="20">
-        <use xlinkHref={isFavorite ? '#in-list' : '#add'} />
+        <use xlinkHref={iconFavorite} />
       </svg>
       <span>My list</span>
     </button>
