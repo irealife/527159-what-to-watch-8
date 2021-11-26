@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Logo from '../logo/logo';
-import {Footer} from '../footer/footer';
+import Footer from '../footer/footer';
 import TabsFilm from '../tabs/tabs-film';
 import {State} from '../../store/reducer';
 import {connect, ConnectedProps} from 'react-redux';
@@ -10,7 +10,7 @@ import UserRegistered from '../user-registered/user-registered';
 import UserNotRegistered from '../user-not-registered/user-not-registered';
 import {fetchSelectedFilmAction, fetchReviewsFilmAction, fetchSimilarFilmAction} from '../../store/api-actions';
 import {ThunkAppDispatch} from '../../store/types/action';
-import {FilmCard} from '../film-card/film-card';
+import FilmCard from '../film-card/film-card';
 import FilmsButtons from '../films-button/films-button';
 
 const mapStateToProps = ({film, similarFilms, authorizationStatus, reviews }: State) => ({

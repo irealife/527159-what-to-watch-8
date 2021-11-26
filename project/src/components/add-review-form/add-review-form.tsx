@@ -7,8 +7,11 @@ import {useParams, Redirect} from 'react-router-dom';
 import NotFoundScreen from '../not-found/not-found';
 import {AuthorizationStatus, AppRoute} from '../../const';
 
-const TEXT_LENGTH_MIN = 50;
-const TEXT_LENGTH_MAX = 400;
+enum TextLength {
+  Min = 50,
+  Max = 400,
+}
+
 const STARS_COUNT = 10;
 
 const mapStateToProps = ({film, authorizationStatus}: State) => ({
@@ -56,7 +59,7 @@ function AddReviewForm({film, fetchSelectedFilm, sendReviewFilm, authorizationSt
   }
 
   const isValidForm = () => (
-    !isDisabled && reviewText.length >= TEXT_LENGTH_MIN && reviewText.length <= TEXT_LENGTH_MAX
+    !isDisabled && reviewText.length >= TextLength.Min && reviewText.length <= TextLength.Max
   );
 
   const onSubmitForm = async (evt: FormEvent<HTMLFormElement>) => {
@@ -89,8 +92,8 @@ function AddReviewForm({film, fetchSelectedFilm, sendReviewFilm, authorizationSt
         <div className="add-review__text">
           <textarea
             className="add-review__textarea"
-            minLength={TEXT_LENGTH_MIN}
-            maxLength={TEXT_LENGTH_MAX}
+            minLength={TextLength.Min}
+            maxLength={TextLength.Max}
             name="review-text"
             id="review-text"
             placeholder="Review text"

@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {FilmCard} from '../film-card/film-card';
+import FilmCard from '../film-card/film-card';
 import {Film} from '../../types/film';
 
 type FilmListProps = {
   films: Film[],
 }
 
-export function FilmList({films}: FilmListProps): JSX.Element {
+function FilmList({films}: FilmListProps): JSX.Element {
   const [currentFilm, setCurrentFilm] = useState(0);
   const handleFilmCardMouseEnter = (filmId: number) => {
     setCurrentFilm(filmId);
@@ -28,3 +28,5 @@ export function FilmList({films}: FilmListProps): JSX.Element {
     </div>
   );
 }
+
+export default FilmList;

@@ -2,8 +2,9 @@ import {Actions, ActionType} from './types/action';
 import {AuthorizationStatus, FavoriteStatus, Genres, INITIAL_FILMS_COUNT} from '../const';
 import {Film} from '../types/film';
 import {Review} from '../types/review';
+import {User} from '../types/user';
 
-export type State = {
+type State = {
   films: Film[],
   film?: Film,
   similarFilms: Film[],
@@ -16,9 +17,10 @@ export type State = {
   loadedFilmsCount: number,
   favoriteStatus?: FavoriteStatus,
   isFavorite: boolean,
+  user?: User,
 };
 
-export const initialState = {
+const initialState = {
   films: [],
   film: undefined,
   similarFilms: [],
@@ -31,6 +33,7 @@ export const initialState = {
   loadedFilmsCount: INITIAL_FILMS_COUNT,
   favoriteStatus: undefined,
   isFavorite: false,
+  user: undefined,
 };
 
 function reducer(state: State = initialState, action: Actions): State {
@@ -59,6 +62,8 @@ function reducer(state: State = initialState, action: Actions): State {
       };
     case ActionType.LoadReviews:
       return {...state, reviews: action.payload as Review[]};
+    case ActionType.ChangeUser:
+      return {...state, user: action.payload as User};
     case ActionType.RequireAuthorization:
       return {
         ...state,
@@ -72,4 +77,9 @@ function reducer(state: State = initialState, action: Actions): State {
   }
 }
 
-export {reducer};
+export type {State};
+
+export {
+  initialState,
+  reducer
+};

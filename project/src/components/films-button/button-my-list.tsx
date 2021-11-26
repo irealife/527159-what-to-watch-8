@@ -1,9 +1,9 @@
 import {FavoriteStatus} from '../../const';
 import React from 'react';
-import {Film} from '../../types/film';
-import {setFavoriteFilmAction} from '../../store/api-actions';
+import {setFavoriteFilmAction, fetchFavoriteFilmListAction, fetchSelectedFilmAction, fetchPromoFilmAction} from '../../store/api-actions';
 import {ThunkAppDispatch} from '../../store/types/action';
 import {connect, ConnectedProps} from 'react-redux';
+import {Film} from '../../types/film';
 
 type ButtonMyListProps = {
   film: Film,
@@ -14,6 +14,15 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   setFavoriteFilm(id: number, status: FavoriteStatus) {
     dispatch(setFavoriteFilmAction(id, status));
   },
+  fetchFavoriteFilmList() {
+    dispatch(fetchFavoriteFilmListAction());
+  },
+  fetchSelectedFilm(id: number) {
+    dispatch(fetchSelectedFilmAction(id));
+  },
+  fetchPromoFilm() {
+    dispatch(fetchPromoFilmAction());
+  },
 });
 
 const connector = connect(null, mapDispatchToProps);
@@ -22,11 +31,14 @@ type PropsFormRedux = ConnectedProps<typeof connector>;
 
 type ConnectedComponentProps = PropsFormRedux & ButtonMyListProps;
 
-function ButtonMyList({film, isFavorite, setFavoriteFilm}: ConnectedComponentProps): JSX.Element {
+function ButtonMyList({film, isFavorite, setFavoriteFilm, fetchSelectedFilm, fetchFavoriteFilmList, fetchPromoFilm} : ConnectedComponentProps): JSX.Element {
 
   const onFavoriteButtonClick = () => {
     const newStatus = isFavorite ? FavoriteStatus.NotFavorite : FavoriteStatus.Favorite;
     setFavoriteFilm(film.id, newStatus);
+    fetchSelectedFilm(film.id);
+    fetchPromoFilm();
+    fetchFavoriteFilmList();
   };
 
   const iconFavorite = isFavorite ? '#in-list' : '#add';

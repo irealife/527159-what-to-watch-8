@@ -1,4 +1,4 @@
-export enum AppRoute {
+enum AppRoute {
   Main ='/',
   SignIn = '/login',
   MyList = '/mylist',
@@ -8,7 +8,7 @@ export enum AppRoute {
   devReview = '/user/:id/review'
 }
 
-export enum APIRoute {
+enum APIRoute {
   Films = '/films',
   Reviews = '/comments',
   Login = '/login',
@@ -17,13 +17,13 @@ export enum APIRoute {
   FavoriteFilms = 'favorite',
 }
 
-export enum AuthorizationStatus {
+enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
 
-export enum Genres {
+enum Genres {
   AllGenres = 'All genres',
   Comedy = 'Comedy',
   Action = 'Action',
@@ -34,11 +34,22 @@ export enum Genres {
   Thriller = 'Thriller',
 }
 
-export enum FavoriteStatus {
+enum FavoriteStatus {
   Favorite = 1,
   NotFavorite = 0,
 }
 
-export const INITIAL_FILMS_COUNT = 8;
-export const SHOW_MORE_STEP = 8;
-export const MAX_SIMILAR_FILMS_COUNT = 4;
+const INITIAL_FILMS_COUNT = 8;
+const SHOW_MORE_STEP = 8;
+const MAX_SIMILAR_FILMS_COUNT = 4;
+
+export {
+  AppRoute,
+  APIRoute,
+  AuthorizationStatus,
+  Genres,
+  FavoriteStatus,
+  INITIAL_FILMS_COUNT,
+  SHOW_MORE_STEP,
+  MAX_SIMILAR_FILMS_COUNT
+};

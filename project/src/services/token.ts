@@ -1,16 +1,24 @@
 const AUTH_TOKEN_KEY_NAME = 'guess-film-view-token';
 
-export type Token = string;
+type Token = string;
 
-export const getToken = (): Token => {
+const getToken = (): Token => {
   const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);
   return token ?? '';
 };
 
-export const saveToken = (token: Token): void => {
+const saveToken = (token: Token): void => {
   localStorage.setItem(AUTH_TOKEN_KEY_NAME, token);
 };
 
-export const dropToken = (): void => {
+const dropToken = (): void => {
   localStorage.removeItem(AUTH_TOKEN_KEY_NAME);
 };
+
+export {
+  getToken,
+  saveToken,
+  dropToken
+};
+
+export type {Token};

@@ -1,5 +1,5 @@
 import Logo from '../logo/logo';
-import {Footer} from '../footer/footer';
+import Footer from '../footer/footer';
 import {useRef, FormEvent} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import {loginAction} from '../../store/api-actions';

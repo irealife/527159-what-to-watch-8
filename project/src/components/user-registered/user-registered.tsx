@@ -1,29 +1,48 @@
-import React, {MouseEvent} from 'react';
-import {useDispatch} from 'react-redux';
+import React from 'react';
+import {connect, ConnectedProps} from 'react-redux';
 import {logoutAction} from '../../store/api-actions';
 import {Link} from 'react-router-dom';
+import {State} from '../../store/reducer';
+import {ThunkAppDispatch} from '../../store/types/action';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import NotFoundScreen from '../not-found/not-found';
 
-function UserRegistered(): JSX.Element {
-  const dispatch = useDispatch();
-  const handlerButtonClickSignOut = (evt: MouseEvent) => {
-    evt.preventDefault();
+const mapStateToProps = ({authorizationStatus, user}: State) => ({
+  authorizationStatus,
+  user,
+});
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onLogout() {
     dispatch(logoutAction());
-  };
+  },
+});
 
-  return (
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFormRedux = ConnectedProps<typeof connector>;
+
+type ConnectedComponentProps = PropsFormRedux;
+
+function UserRegistered({authorizationStatus, user, onLogout}: ConnectedComponentProps): JSX.Element {
+
+  return user !== undefined ? (
     <ul className="user-block">
       <li className="user-block__item">
         <div className="user-block__avatar">
-          <Link to={'/myList'}>
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+          <Link to={AppRoute.MyList}>
+            <img src={user.avatarUrl} alt="имя" width="63" height="63" />
           </Link>
         </div>
       </li>
       <li className="user-block__item">
-        <a className="user-block__link" href='/' onClick={handlerButtonClickSignOut}>Sign out</a>
+        {authorizationStatus === AuthorizationStatus.Auth ?
+          <Link to={AppRoute.Main} className="user-block__link" onClick={() => onLogout()}>Sign out</Link>
+          : <Link to={AppRoute.SignIn} className="user-block__link">Sign in</Link>}
       </li>
     </ul>
-  );
+  ) : <NotFoundScreen />;
 }
 
-export default UserRegistered;
+export {UserRegistered};
+export default connector(UserRegistered);

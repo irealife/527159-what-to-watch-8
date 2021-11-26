@@ -1,6 +1,7 @@
 import {Film} from './types/film';
+import {User} from './types/user';
 
-export function adapterFromServer(data: {[key: string]: unknown}): Film {
+function adapterFromServer(data: {[key: string]: unknown}): Film {
   const adaptedFilm = Object.assign({}, data, {
     posterImg: data['poster_image'],
     previewImg: data['preview_image'],
@@ -25,3 +26,16 @@ export function adapterFromServer(data: {[key: string]: unknown}): Film {
 
   return adaptedFilm as Film;
 }
+
+function adapterUserFromServer(data: {[key: string]: unknown}): User {
+  const adaptedUser = Object.assign({}, data, {
+    avatarUrl: data['avatar_url'],
+  });
+  delete adaptedUser['avatar_url'];
+  return adaptedUser as User;
+}
+
+export {
+  adapterFromServer,
+  adapterUserFromServer
+};

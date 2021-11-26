@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import React from 'react';
 
-export function Footer(): JSX.Element {
+function Footer(): JSX.Element {
   return (
     <footer className="page-footer">
       <div className="logo">
@@ -17,3 +17,5 @@ export function Footer(): JSX.Element {
     </footer>
   );
 }
+
+export default Footer;

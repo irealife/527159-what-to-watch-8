@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Logo from '../logo/logo';
-import {Footer} from '../footer/footer';
+import Footer from '../footer/footer';
 import {State} from '../../store/reducer';
 import {connect, ConnectedProps} from 'react-redux';
 import {fetchFavoriteFilmListAction} from '../../store/api-actions';
@@ -8,7 +8,7 @@ import {AuthorizationStatus} from '../../const';
 import UserRegistered from '../user-registered/user-registered';
 import UserNotRegistered from '../user-not-registered/user-not-registered';
 import {ThunkAppDispatch} from '../../store/types/action';
-import {FilmCard} from '../film-card/film-card';
+import FilmCard from '../film-card/film-card';
 
 const mapStateToProps = ({favoriteFilmList, authorizationStatus}: State) => ({
   favoriteFilmList,
@@ -26,7 +26,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFormRedux = ConnectedProps<typeof connector>;
 
 type ConnectedComponentProps = PropsFormRedux;
-
 
 function MyListScreen({favoriteFilmList, fetchFavoriteFilmList, authorizationStatus}: ConnectedComponentProps): JSX.Element {
 

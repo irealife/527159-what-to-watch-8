@@ -5,7 +5,7 @@ import {ActionType} from '../types/action';
 
 type Reducer = ReturnType<typeof reducer>;
 
-export const redirect: Middleware<unknown, Reducer> =
+const redirect: Middleware<unknown, Reducer> =
   (_store) =>
     (next) =>
       (action) => {
@@ -16,3 +16,5 @@ export const redirect: Middleware<unknown, Reducer> =
 
         return next(action);
       };
+
+export {redirect};

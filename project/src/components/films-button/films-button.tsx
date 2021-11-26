@@ -9,7 +9,7 @@ import LinkAddReview from './link-add-review';
 
 type FilmsButtonProps = {
   film: Film,
-  isFavorite: boolean,
+  isFavorite: boolean;
 };
 
 const mapStateToProps = ({authorizationStatus}: State) => ({
@@ -22,14 +22,14 @@ type PropsFormRedux = ConnectedProps<typeof connector>;
 
 type ConnectedComponentProps = PropsFormRedux & FilmsButtonProps;
 
-function FilmsButtons({film, authorizationStatus}: ConnectedComponentProps): JSX.Element {
+function FilmsButtons({film, isFavorite, authorizationStatus}: ConnectedComponentProps): JSX.Element {
 
   return (
     <div className="film-card__buttons">
       <ButtonPlay film={film} />
       {authorizationStatus === AuthorizationStatus.Auth &&
         <>
-          <ButtonMyList film={film} isFavorite={film.isFavorite} />
+          <ButtonMyList film={film} isFavorite={isFavorite} />
           <LinkAddReview film={film} />
         </>}
     </div>

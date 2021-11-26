@@ -1,9 +1,11 @@
 import {User} from './user';
 
-export type Review = {
+type Review = {
   id: number;
   user: User;
   rating: number;
   comment: string;
   date: Date;
 }
+
+export type {Review};

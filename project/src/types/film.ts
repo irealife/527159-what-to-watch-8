@@ -1,6 +1,6 @@
 import {Genres} from '../const';
 
-export type Film = {
+type Film = {
   id: number;
   name: string;
   posterImg: string;
@@ -19,3 +19,5 @@ export type Film = {
   released: number;
   isFavorite: boolean;
 }
+
+export type {Film};

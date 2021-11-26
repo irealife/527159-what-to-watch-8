@@ -7,7 +7,7 @@ type GenreListProps = {
   onChangeGenre: (genre: Genres) => void,
 }
 
-export function GenreList({genres, activeGenre, onChangeGenre}: GenreListProps): JSX.Element {
+function GenreList({genres, activeGenre, onChangeGenre}: GenreListProps): JSX.Element {
 
   const genresItemClass = 'catalog__genres-item';
   const genresItemClassActive = 'catalog__genres-item--active';
@@ -26,3 +26,5 @@ export function GenreList({genres, activeGenre, onChangeGenre}: GenreListProps):
     </ul>
   );
 }
+
+export default GenreList;

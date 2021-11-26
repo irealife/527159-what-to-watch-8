@@ -5,7 +5,7 @@ type UserReviewCardProps = {
   review: Review;
 }
 
-export function UserReviewCard({review}: UserReviewCardProps): JSX.Element {
+function UserReviewCard({review}: UserReviewCardProps): JSX.Element {
   return (
     <div className="review">
       <blockquote className="review__quote">
@@ -21,3 +21,5 @@ export function UserReviewCard({review}: UserReviewCardProps): JSX.Element {
     </div>
   );
 }
+
+export default UserReviewCard;

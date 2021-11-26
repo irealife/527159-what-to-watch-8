@@ -10,7 +10,7 @@ type FilmCardProps = {
   onMouseEnter: (filmId: number) => void;
 }
 
-export function FilmCard({film, isPlaying, onMouseLeave, onMouseEnter}: FilmCardProps): JSX.Element {
+function FilmCard({film, isPlaying, onMouseLeave, onMouseEnter}: FilmCardProps): JSX.Element {
 
   const handleMouseEnter = () => {
     onMouseEnter(film.id);
@@ -35,3 +35,5 @@ export function FilmCard({film, isPlaying, onMouseLeave, onMouseEnter}: FilmCard
     </article>
   );
 }
+
+export default FilmCard;

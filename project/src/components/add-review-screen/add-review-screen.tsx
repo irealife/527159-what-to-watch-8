@@ -58,7 +58,7 @@ function AddReviewScreen({authorizationStatus, film, fetchSelectedFilm}: Connect
               </li>
             </ul>
           </nav>
-          {authorizationStatus === AuthorizationStatus.Auth ? <UserRegistered/> : <UserNotRegistered/>}
+          {authorizationStatus === AuthorizationStatus.Auth ? <UserRegistered /> : <UserNotRegistered/>}
         </header>
         <div className="film-card__poster film-card__poster--small">
           <img src={film.posterImg} alt={film.name} width="218" height="327"/>
@@ -70,5 +70,4 @@ function AddReviewScreen({authorizationStatus, film, fetchSelectedFilm}: Connect
 }
 
 export {AddReviewScreen};
-
 export default connector(AddReviewScreen);

@@ -8,7 +8,7 @@ type VideoPlayerProps = {
   poster: string;
 }
 
-function VideoPlayerPreview({isPlaying, src, poster}: VideoPlayerProps): JSX.Element {
+function VideoPlayer({isPlaying, src, poster}: VideoPlayerProps): JSX.Element {
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -37,4 +37,4 @@ function VideoPlayerPreview({isPlaying, src, poster}: VideoPlayerProps): JSX.Ele
   );
 }
 
-export default VideoPlayerPreview;
+export default VideoPlayer;
