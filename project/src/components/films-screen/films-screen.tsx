@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Logo from '../logo/logo';
 import Footer from '../footer/footer';
-import TabsFilm from '../tabs/tabs-film';
+import TabsFilm from '../tabs-film/tabs-film';
 import {State} from '../../store/reducer';
 import {connect, ConnectedProps} from 'react-redux';
 import {AuthorizationStatus, MAX_SIMILAR_FILMS_COUNT} from '../../const';

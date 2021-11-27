@@ -60,7 +60,13 @@ const fetchFavoriteFilmListAction = (): ThunkActionResult =>
 const setFavoriteFilmAction = (id: number, status: FavoriteStatus): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     if (getToken() !== '') {
-      await api.post(`${APIRoute.FavoriteFilms}/${id}/${status}`);
+      const state = _getState();
+      const {data} = await api.post(`${APIRoute.FavoriteFilms}/${id}/${status}`);
+      const adapterData = adapterFromServer(data);
+      dispatch(loadSelectedFilm(adapterData));
+      if (state.promoFilm?.id === id) {
+        dispatch(loadPromoFilm(adapterData));
+      }
     } else {
       dispatch(redirectToRoute(`${APIRoute.Login}`));
     }

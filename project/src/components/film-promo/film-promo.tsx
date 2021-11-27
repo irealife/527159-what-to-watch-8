@@ -8,8 +8,8 @@ import {fetchPromoFilmAction} from '../../store/api-actions';
 import {ThunkAppDispatch} from '../../store/types/action';
 import {connect, ConnectedProps} from 'react-redux';
 import NotFoundScreen from '../not-found/not-found';
-import ButtonPlay from '../films-button/button-play';
-import ButtonMyList from '../films-button/button-my-list';
+import ButtonPlay from '../button-play/button-play';
+import ButtonMyList from '../button-my-list/button-my-list';
 
 const mapStateToProps = ({promoFilm, authorizationStatus}: State) => ({
   promoFilm,

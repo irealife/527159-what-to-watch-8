@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import TabFilmOverview from './tab-film-overviews';
-import TabFilmDetails from './tab-film-details';
-import TabFilmReviews from './tab-film-reviews';
+import TabFilmOverview from '../tab-film-overviews/tab-film-overviews';
+import TabFilmDetails from '../tab-film-details/tab-film-details';
+import TabFilmReviews from '../tab-film-reviews/tab-film-reviews';
 import {Film} from '../../types/film';
 import {Review} from '../../types/review';
 

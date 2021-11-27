@@ -3,9 +3,9 @@ import React from 'react';
 import {State} from '../../store/reducer';
 import {Film} from '../../types/film';
 import {connect, ConnectedProps} from 'react-redux';
-import ButtonPlay from './button-play';
-import ButtonMyList from './button-my-list';
-import LinkAddReview from './link-add-review';
+import ButtonPlay from '../button-play/button-play';
+import ButtonMyList from '../button-my-list/button-my-list';
+import LinkAddReview from '../link-add-review/link-add-review';
 
 type FilmsButtonProps = {
   film: Film,

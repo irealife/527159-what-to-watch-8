@@ -1,5 +1,5 @@
 import React from 'react';
-import ReviewItem from './tab-review-item';
+import ReviewItem from '../tab-review-item/tab-review-item';
 import {Review} from '../../types/review';
 
 type TabFilmReviewsProps = {
